@@ -64,7 +64,7 @@ class Payment extends Component
         if (count($cart_items) == 0) {
             $this->dispatch('successPayment', [
                 'title' => 'Thất bại',
-                'message' => 'Vui lòng chọn sản phẩm cho đơn hàng',
+                'message' => 'Vui lòng chọn Truyện cho đơn hàng',
                 'type' => 'error'
             ]);
             return;

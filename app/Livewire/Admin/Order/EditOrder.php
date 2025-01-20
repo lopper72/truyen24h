@@ -91,7 +91,7 @@ class EditOrder extends Component
         if(empty($this->order_details)){
             $this->dispatch('successOrder', [
                 'title' => 'Thất bại',
-                'message' => 'Vui lòng chọn sản phẩm cho đơn hàng',
+                'message' => 'Vui lòng chọn Truyện cho đơn hàng',
                 'type' => 'error',
                 'timeout' => 3000,
                 'action' => $action

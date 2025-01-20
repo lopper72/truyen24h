@@ -71,8 +71,8 @@ class AddProductModal extends ModalComponent
                 'product_total_amount' => 'required|numeric|min:0',
             ],
             [
-                'product_id.required' => 'Trường sản phẩm là bắt buộc.',
-                'product_detail_id.required' => 'Trường chi tiết sản phẩm là bắt buộc.',
+                'product_id.required' => 'Trường Truyện là bắt buộc.',
+                'product_detail_id.required' => 'Trường chi tiết Truyện là bắt buộc.',
                 'product_size_id.required' => 'Trường kích thước là bắt buộc.',
                 'warehouse_id.required' => 'Trường kho hàng là bắt buộc.',
                 'product_quantity.required' => 'Trường số lượng là bắt buộc.',
@@ -90,7 +90,7 @@ class AddProductModal extends ModalComponent
         $totalAvailable = Warehouse::find($this->warehouse_id)->totalProductAvailable($this->product_id, $this->product_detail_id, $this->product_size_id);
 
         if($this->product_quantity > $totalAvailable){
-            $this->addError('product_quantity', 'Số lượng sản phẩm trong kho không đủ. Sản phẩm còn lại: '.$totalAvailable.' sản phẩm.');
+            $this->addError('product_quantity', 'Số lượng Truyện trong kho không đủ. Truyện còn lại: '.$totalAvailable.' Truyện.');
             return;
         }
         $this->order_product->product_id = $this->product_id;

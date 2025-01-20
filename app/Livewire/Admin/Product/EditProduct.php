@@ -9,6 +9,7 @@ use App\Models\ProductDetail;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class EditProduct extends Component
 {
@@ -36,22 +37,48 @@ class EditProduct extends Component
     public $brands;
     public $categories;
     public $is_active = '1';
+    public $is_full = '1';
+    public $product_source;
+    public $product_author;
+    public $shopper_link = '';
+    public $product_detail_list_category = [];
+    public $product_detail_list_brand = [];
+    public $selected_categories = [];
+    public $selected_brands = [];
+    public $keys = [];
+    public $photo;
+    public $existedPhoto;
+
 
     public function mount($id, $brands, $categories)
     {
         $this->id = $id;
         $this->brands = $brands;
         $this->categories = $categories;
-        $product = Product::find($this->id);
+        $this->selected_brands = $brands->pluck('id')->toArray();
+        $this->selected_categories = $categories->pluck('id')->toArray();
+
+        $product = Product::find($this->id);    
         $this->product_code = $product->code;
         $this->product_name = $product->name;
         $this->category_id = $product->category_id;
         $this->brand_id = $product->brand_id;
-        $this->product_retail_price = $product->retail_price;
-        $this->product_wholesale_price = $product->wholesale_price;
+        //$this->product_retail_price = $product->retail_price;
+        //$this->product_wholesale_price = $product->wholesale_price;
         $this->product_description = $product->description;
-        $this->product_uom = $product->uom;
+        //$this->product_uom = $product->uom;
         $this->is_active = $product->is_active;
+        $this->is_full = $product->is_full;
+        $this->product_source = $product->source;
+        $this->product_author = $product->author;
+        $this->shopper_link = $product->shopper_link;
+        $this->product_detail_list_category = json_decode(str_replace('"', '', $product->category_ids), true);
+     
+        $this->product_detail_list_brand =  json_decode(str_replace('"', '', $product->brand_ids), true);
+        if($product->image){
+            $this->existedPhoto = "images/products/" . $product->image;
+        }
+
         if(is_null($this->is_active)){
             $this->is_active = '1';
         }
@@ -111,23 +138,42 @@ class EditProduct extends Component
         $this->product_detail_image_list[$index] = array_values($this->product_detail_image_list[$index]);
     }
 
+    public function toggleCategory($categoryId)
+    {
+        if (in_array($categoryId, $this->product_detail_list_category)) {
+            $this->product_detail_list_category = array_diff($this->product_detail_list_category, [$categoryId]); // Bỏ chọn
+        } else {
+            array_push($this->product_detail_list_category, $categoryId); // Chọn
+        }
+ 
+    }
+
+    public function toggleBrand($brandId)
+    {
+        if (in_array($brandId, $this->product_detail_list_brand)) {
+            $this->product_detail_list_brand = array_diff($this->product_detail_list_brand, [$brandId]); // Bỏ chọn
+        } else {
+            array_push($this->product_detail_list_brand, $brandId); // Chọn
+        }
+    }
+
     public function storeProduct(){
         $this->validate([
             'product_code' => 'required|unique:products,code,' . $this->id,
             'product_name' => 'required|unique:products,name,' . $this->id,
-            'product_retail_price' => 'required|numeric',
-            'product_wholesale_price' => 'required|numeric',
-            'product_uom' => 'required',
+            //'product_retail_price' => 'required|numeric',
+            //'product_wholesale_price' => 'required|numeric',
+            //'product_uom' => 'required',
         ], [
-            'product_code.required' => 'Mã sản phẩm là bắt buộc.',
-            'product_code.unique' => 'Mã sản phẩm đã tồn tại.',
-            'product_name.required' => 'Tên sản phẩm là bắt buộc.',
-            'product_name.unique' => 'Tên sản phẩm đã tồn tại.',
-            'product_retail_price.required' => 'Giá bán lẻ là bắt buộc.',
-            'product_retail_price.numeric' => 'Giá bán lẻ phải là số.',
-            'product_wholesale_price.required' => 'Giá bán sỉ là bắt buộc.',
-            'product_wholesale_price.numeric' => 'Giá bán sỉ phải là số.',
-            'product_uom.required' => 'Đơn vị tính là bắt buộc.'
+            'product_code.required' => 'Mã Truyện là bắt buộc.',
+            'product_code.unique' => 'Mã Truyện đã tồn tại.',
+            'product_name.required' => 'Tên Truyện là bắt buộc.',
+            'product_name.unique' => 'Tên Truyện đã tồn tại.',
+            //'product_retail_price.required' => 'Giá bán lẻ là bắt buộc.',
+            //'product_retail_price.numeric' => 'Giá bán lẻ phải là số.',
+            //'product_wholesale_price.required' => 'Giá bán sỉ là bắt buộc.',
+            //'product_wholesale_price.numeric' => 'Giá bán sỉ phải là số.',
+            //'product_uom.required' => 'Đơn vị tính là bắt buộc.'
         ]);
 
         for($i = 0; $i < $this->product_detail_number; $i++){
@@ -138,17 +184,46 @@ class EditProduct extends Component
             ]);
         }
 
+        if ($this->photo) {
+            $this->validate([
+                'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ], [
+                'photo.image' => 'File không phải là ảnh',
+                'photo.mimes' => 'Ảnh không đúng định dạng',
+                'photo.max' => 'Ảnh không được lớn hơn 2MB'
+            ]);
+            Storage::delete('public\\' . $this->existedPhoto);
+            $photo_name = time() . uniqid() . '.' . $this->photo->extension();
+            ImageOptimizer::optimize($this->photo->path());
+            $this->photo->storeAs(path: "public\images\products", name: $photo_name);
+        }
+
         $product = Product::find($this->id);
         $product->code = $this->product_code;
         $product->name = $this->product_name;
         $product->category_id = $this->category_id;
         $product->brand_id = $this->brand_id;
-        $product->retail_price = $this->product_retail_price;
-        $product->wholesale_price = $this->product_wholesale_price;
+        //$product->retail_price = $this->product_retail_price;
+        //$product->wholesale_price = $this->product_wholesale_price;
         $product->description = $this->product_description;
         $product->slug = Str::of($this->product_name)->slug('-');
-        $product->uom = $this->product_uom;
+        //$product->uom = $this->product_uom;
         $product->is_active = $this->is_active;
+        $product->is_full = $this->is_full;
+        $product->source = $this->product_source;
+        $product->author = $this->product_author;
+        $product->shopper_link = $this->shopper_link;
+       
+        $keys = array_values($this->product_detail_list_category);
+        $product->category_ids = $keys;
+
+        $keys = array_values($this->product_detail_list_brand);
+        $product->brand_ids = $keys;
+        
+        if ($this->photo) {
+            $product->image = $photo_name;
+        }
+
         $product->save();
 
         foreach($this->product_size_list_deleted as $size){

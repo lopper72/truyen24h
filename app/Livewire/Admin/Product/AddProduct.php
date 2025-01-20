@@ -32,11 +32,24 @@ class AddProduct extends Component
     public $brands;
     public $categories;
     public $is_active = '1';
+    public $is_full = '1';
+    public $product_source;
+    public $product_author;
+    public $shopper_link = '';
+    public $product_detail_list_category = [];
+    public $product_detail_list_brand = [];
+    public $selected_categories = [];
+    public $selected_brands = [];
+    public $keys = [];
+    public $photo;
+    public $existedPhoto;
 
     public function mount($brands, $categories)
     {
         $this->brands = $brands;
         $this->categories = $categories;
+        $this->selected_brands = $brands->pluck('id')->toArray();
+        $this->selected_categories = $categories->pluck('id')->toArray();
     }
 
     public function addProductSize(){
@@ -85,24 +98,42 @@ class AddProduct extends Component
         unset($this->product_detail_image_list[$index][$image_index]);
         $this->product_detail_image_list[$index] = array_values($this->product_detail_image_list[$index]);
     }
+    public function toggleCategory($categoryId)
+    {
+        if (in_array($categoryId, $this->product_detail_list_category)) {
+            $this->product_detail_list_category = array_diff($this->product_detail_list_category, [$categoryId]); // Bỏ chọn
+        } else {
+            array_push($this->product_detail_list_category, $categoryId); // Chọn
+        }
+ 
+    }
+
+    public function toggleBrand($brandId)
+    {
+        if (in_array($brandId, $this->product_detail_list_brand)) {
+            $this->product_detail_list_brand = array_diff($this->product_detail_list_brand, [$brandId]); // Bỏ chọn
+        } else {
+            array_push($this->product_detail_list_brand, $brandId); // Chọn
+        }
+    }
 
     public function storeProduct(){
         $this->validate([
             'product_code' => 'required|unique:products,code',
             'product_name' => 'required|unique:products,name',
-            'product_retail_price' => 'required|numeric',
-            'product_wholesale_price' => 'required|numeric',
-            'product_uom' => 'required',
+            //'product_retail_price' => 'required|numeric',
+            //'product_wholesale_price' => 'required|numeric',
+            //'product_uom' => 'required',
         ], [
-            'product_code.required' => 'Mã sản phẩm là bắt buộc.',
-            'product_code.unique' => 'Mã sản phẩm đã tồn tại.',
-            'product_name.required' => 'Tên sản phẩm là bắt buộc.',
-            'product_name.unique' => 'Tên sản phẩm đã tồn tại.',
-            'product_retail_price.required' => 'Giá bán lẻ là bắt buộc.',
-            'product_retail_price.numeric' => 'Giá bán lẻ phải là số.',
-            'product_wholesale_price.required' => 'Giá bán sỉ là bắt buộc.',
-            'product_wholesale_price.numeric' => 'Giá bán sỉ phải là số.',
-            'product_uom.required' => 'Đơn vị tính là bắt buộc.'
+            'product_code.required' => 'Mã Truyện là bắt buộc.',
+            'product_code.unique' => 'Mã Truyện đã tồn tại.',
+            'product_name.required' => 'Tên Truyện là bắt buộc.',
+            'product_name.unique' => 'Tên Truyện đã tồn tại.',
+            //'product_retail_price.required' => 'Giá bán lẻ là bắt buộc.',
+            //'product_retail_price.numeric' => 'Giá bán lẻ phải là số.',
+            //'product_wholesale_price.required' => 'Giá bán sỉ là bắt buộc.',
+            //'product_wholesale_price.numeric' => 'Giá bán sỉ phải là số.',
+            //'product_uom.required' => 'Đơn vị tính là bắt buộc.'
         ]);
 
         for($i = 0; $i < $this->product_detail_number; $i++){
@@ -112,6 +143,20 @@ class AddProduct extends Component
                 'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.'
             ]);
         }
+        if ($this->photo) {
+            $this->validate([
+                'photo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ], [
+                'photo.image' => 'File không phải là ảnh',
+                'photo.mimes' => 'Ảnh không đúng định dạng',
+                'photo.max' => 'Ảnh không được lớn hơn 2MB'
+            ]);
+            Storage::delete('public\\' . $this->existedPhoto);
+            $photo_name = time() . uniqid() . '.' . $this->photo->extension();
+            ImageOptimizer::optimize($this->photo->path());
+            $this->photo->storeAs(path: "public\images\products", name: $photo_name);
+        }
+        
 
         $product = new Product();
         $product->code = $this->product_code;
@@ -124,6 +169,22 @@ class AddProduct extends Component
         $product->slug = Str::of($this->product_name)->slug('-');
         $product->uom = $this->product_uom;
         $product->is_active =  $this->is_active;
+        
+        $product->is_full = $this->is_full;
+        $product->source = $this->product_source;
+        $product->author = $this->product_author;
+        $product->shopper_link = $this->shopper_link;
+       
+        $keys = array_values($this->product_detail_list_category);
+        $product->category_ids = $keys;
+
+        $keys = array_values($this->product_detail_list_brand);
+        $product->brand_ids = $keys;
+
+        if ($this->photo) {
+            $product->image = $photo_name;
+        }
+
         $product->save();
        
         foreach($this->product_size_list as $size){
