@@ -150,7 +150,7 @@
                                             <path d="M10 15v-6h2a2 2 0 1 1 0 4h-2"></path>
                                             <path d="M14 15l-2 -2"></path>
                                         </svg>
-                                        Nhãn hàng
+                                        Thể Loại
                                     </a>
                                 </li>
                                 <li @if (in_array("TMDTSP", explode(',', $list_active_modules)) && in_array("TMDTSP", explode(',', $list_active_user))) @else style='display:none' @endif>
