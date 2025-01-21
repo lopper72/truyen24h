@@ -8,6 +8,8 @@ use App\Models\ProductSize;
 use App\Models\ProductDetail;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class AddProduct extends Component
 {
@@ -239,6 +241,11 @@ class AddProduct extends Component
             $id_latest = (object) ['id' => 0];
         }   
         $this->product_code = 'PROD-'.str_pad($id_latest->id + 1, 4, '0', STR_PAD_LEFT);
+    }
+
+    public function updated()
+    {
+        $this->dispatch('reloadjs');
     }
 
     public function initinalRender(){

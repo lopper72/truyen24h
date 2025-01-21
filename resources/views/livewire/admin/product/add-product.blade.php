@@ -293,28 +293,7 @@
 </div>
 
 <script>
-        function initSelect2(){
-                console.log('vaoxxx');
-                $('#selectBrand').select2({
-                        placeholder: 'Chọn một mục',
-                        allowClear: true
-                    });
-
-                    $('#selectBrand').on('change',function(){
-                        let data = $(this).val();
-                        $wire.set('selected_brands',data,false);
-                        $wire.selected_brands = data;
-                    });
-                    $('#selected_categories').select2({
-                        placeholder: 'Chọn một mục',
-                        allowClear: true
-                    });
-                    $('#selected_categories').on('change',function(){
-                        let data = $(this).val();
-                        $wire.set('selected_categories',data,false);
-                        $wire.selected_brands = data;
-                    });
-        };
+        
 
         ClassicEditor
         .create( document.querySelector( '#product_description' ),{
@@ -337,23 +316,62 @@
         function toggleDetail(index) {
             $('#chuong'+index).toggle();
         }
+
+
 </script>
 
 @script()
 <script>
-   
-    document.addEventListener('livewire:load', function () {
-        initSelect2();
-    });
 
-    document.addEventListener('livewire:update', function () {
-        initSelect2();
-    });
     $(document).ready(function() {
+        function initSelect2(){
+                console.log('vaoxxx');
+                $('#selectBrand').select2({
+                        placeholder: 'Chọn một mục',
+                        allowClear: true
+                    });
+
+                    $('#selectBrand').on('change',function(){
+                        let data = $(this).val();
+                        $wire.set('selected_brands',data,false);
+                        $wire.selected_brands = data;
+                    });
+                    $('#selected_categories').select2({
+                        placeholder: 'Chọn một mục',
+                        allowClear: true
+                    });
+                    $('#selected_categories').on('change',function(){
+                        let data = $(this).val();
+                        $wire.set('selected_categories',data,false);
+                        $wire.selected_brands = data;
+                    });
+        };
         let firstElement = $('div[id^="chuong"]').first().show();
         initSelect2();
     });
     window.addEventListener('reloadjs', event => {
+        function initSelect2(){
+                console.log('vaoxxx');
+                $('#selectBrand').select2({
+                        placeholder: 'Chọn một mục',
+                        allowClear: true
+                    });
+
+                    $('#selectBrand').on('change',function(){
+                        let data = $(this).val();
+                        $wire.set('selected_brands',data,false);
+                        $wire.selected_brands = data;
+                    });
+                    $('#selected_categories').select2({
+                        placeholder: 'Chọn một mục',
+                        allowClear: true
+                    });
+                    $('#selected_categories').on('change',function(){
+                        let data = $(this).val();
+                        $wire.set('selected_categories',data,false);
+                        $wire.selected_brands = data;
+                    });
+        };
         $(document).ready(function() {
 
             let firstElement = $('div[id^="chuong"]').first().show();
