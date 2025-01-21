@@ -199,7 +199,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-span-1 sm:col-span-2 md:col-span-3 bg-slate-200">
+                        <div class="col-span-1 sm:col-span-2 md:col-span-3 bg-slate-200 overflow-y-scroll" style="height: 1000px">
                             <div class="flex justify-between items-center bg-slate-800 mb-2">
                                 <h3 class="font-bold text-gray-300 px-3 py-3">Danh Sách Chương</h3>
                                 <div class="flex flex-col sm:flex-row items-center justify-end gap-x-6 px-3">
