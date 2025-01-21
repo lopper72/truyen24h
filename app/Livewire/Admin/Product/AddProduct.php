@@ -32,7 +32,7 @@ class AddProduct extends Component
     public $brands;
     public $categories;
     public $is_active = '1';
-    public $is_full = '1';
+    public $is_full = '0';
     public $product_source;
     public $product_author;
     public $shopper_link = '';
@@ -48,9 +48,11 @@ class AddProduct extends Component
     {
         $this->brands = $brands;
         $this->categories = $categories;
-        $this->selected_brands = $brands->pluck('id')->toArray();
-        $this->selected_categories = $categories->pluck('id')->toArray();
     }
+    protected $rules = [
+        'selected_brands' => 'required', // Đặt validation của trường select2
+        'selected_categories' => 'required',
+    ];
 
     public function addProductSize(){
         $this->validate([
@@ -71,6 +73,7 @@ class AddProduct extends Component
         $new_product_detail = new ProductDetail();
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
+        $this->dispatch('reloadjs');
     }
 
     public function removeProductDetail($index){
@@ -117,8 +120,12 @@ class AddProduct extends Component
         }
     }
 
+    public function reloadjs(){
+        $this->dispatch('reloadjs');
+    }
     public function storeProduct(){
-        $this->validate([
+        $this->dispatch('reloadjs');
+        $validatedData = $this->validate([
             'product_code' => 'required|unique:products,code',
             'product_name' => 'required|unique:products,name',
             //'product_retail_price' => 'required|numeric',
@@ -156,6 +163,7 @@ class AddProduct extends Component
             ImageOptimizer::optimize($this->photo->path());
             $this->photo->storeAs(path: "public\images\products", name: $photo_name);
         }
+      
         
 
         $product = new Product();
@@ -175,12 +183,13 @@ class AddProduct extends Component
         $product->author = $this->product_author;
         $product->shopper_link = $this->shopper_link;
        
-        $keys = array_values($this->product_detail_list_category);
-       
-        $product->category_ids = json_encode($keys);
 
-        $keys = array_values($this->product_detail_list_brand);
-        $product->brand_ids = json_encode($keys);
+        $keys = json_encode(array_values($this->selected_brands));
+       
+        $product->category_ids =  $keys;
+
+        $keys = json_encode(array_values($this->selected_brands));
+        $product->brand_ids = $keys;
       
         if ($this->photo) {
             $product->image = $photo_name;

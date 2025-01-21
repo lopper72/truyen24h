@@ -49,14 +49,12 @@ class EditProduct extends Component
     public $photo;
     public $existedPhoto;
 
-
+    protected $listeners = ['updateComponent' => 'updateData'];
     public function mount($id, $brands, $categories)
     {
         $this->id = $id;
         $this->brands = $brands;
         $this->categories = $categories;
-        $this->selected_brands = $brands->pluck('id')->toArray();
-        $this->selected_categories = $categories->pluck('id')->toArray();
 
         $product = Product::find($this->id);    
         $this->product_code = $product->code;
@@ -72,10 +70,15 @@ class EditProduct extends Component
         $this->product_source = $product->source;
         $this->product_author = $product->author;
         $this->shopper_link = $product->shopper_link;
+
+        $this->selected_brands = json_decode($product->brand_ids);
+        $this->selected_categories =  json_decode($product->category_ids);
+
+
         $this->product_detail_list_category = json_decode(str_replace('"', '', $product->category_ids), true);
      
         $this->product_detail_list_brand =  json_decode(str_replace('"', '', $product->brand_ids), true);
-        
+
         if ( $this->product_detail_list_category == ""){
             $this->product_detail_list_category = [];
         }
@@ -113,6 +116,7 @@ class EditProduct extends Component
         $new_product_detail = new ProductDetail();
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
+        $this->dispatch('reloadjs');
     }
 
     public function removeProductDetail($index){
@@ -165,6 +169,7 @@ class EditProduct extends Component
     }
 
     public function storeProduct(){
+        $this->dispatch('reloadjs');
         $this->validate([
             'product_code' => 'required|unique:products,code,' . $this->id,
             'product_name' => 'required|unique:products,name,' . $this->id,
@@ -221,10 +226,11 @@ class EditProduct extends Component
         $product->author = $this->product_author;
         $product->shopper_link = $this->shopper_link;
        
-        $keys = array_values($this->product_detail_list_category);
-        $product->category_ids = $keys;
+        $keys = json_encode(array_values($this->selected_categories));
+       
+        $product->category_ids =  $keys;
 
-        $keys = array_values($this->product_detail_list_brand);
+        $keys = json_encode(array_values($this->selected_brands));
         $product->brand_ids = $keys;
         
         if ($this->photo) {
@@ -341,7 +347,7 @@ class EditProduct extends Component
         $product_details = null;
         
         if($this->product_detail_number == 0){
-            $product_details = ProductDetail::where('product_id', $this->id)->get();
+            $product_details = ProductDetail::where('product_id', $this->id)->orderBy('id', 'asc')->get();
             $this->product_detail_list = $product_details->toArray();
             $this->product_detail_number = count($product_details);
             foreach ($product_details as $key => $product_detail) {

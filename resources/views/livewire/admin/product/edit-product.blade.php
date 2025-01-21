@@ -38,23 +38,21 @@
                                 <div class="col-span-1 sm:col-span-4">
                                     <label class="block text-sm font-medium leading-6 text-gray-900">Thể Loại</label>
                                     <div class="mt-2">
-                                        @foreach ($brands as $brand)
-                                            <div class="flex items-center">
-                                                <input type="checkbox" wire:click="toggleBrand({{ $brand->id }})" wire:model="selected_brands.{{ $brand->id }}" value="{{ $brand->id }}" @checked(in_array($brand->id, $product_detail_list_brand)) id="brand_{{ $brand->id }}" class="mr-2">
-                                                <label for="brand_{{ $brand->id }}" class="text-sm text-gray-900">{{ $brand->name }}</label>
-                                            </div>
-                                        @endforeach
+                                        <select multiple id="selectBrand" wire:model="selected_brands" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="width: 100%">
+                                            @foreach ($brands as $brand)
+                                                <option value="{{ $brand->id }}" @selected(in_array($brand->id, $product_detail_list_brand))>{{ $brand->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-span-1 sm:col-span-2 md:col-span-4">
                                     <label class="block text-sm font-medium leading-6 text-gray-900">Danh mục</label>
                                     <div class="mt-2">
-                                        @foreach ($categories as $category)
-                                            <div class="flex items-center">
-                                                <input type="checkbox" wire:click="toggleCategory({{ $category->id }})" wire:model="selected_categories.{{ $category->id }}" value="{{ $category->id }}" id="category_{{ $category->id }}" @checked(in_array($category->id, $product_detail_list_category)) class="mr-2">
-                                                <label for="category_{{ $category->id }}" class="text-sm text-gray-900">{{ $category->name }}</label>
-                                            </div>
-                                        @endforeach
+                                        <select multiple wire:model="selected_categories" id="selected_categories" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" style="height: 100px;">
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}" @selected(in_array($category->id, $product_detail_list_category))>{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-span-1 sm:col-span-2 md:col-span-4">
@@ -94,7 +92,38 @@
                                         <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
                                     @enderror
                                 </div> --}}
-                                <div class="col-span-1 sm:col-span-4">
+                                
+                               
+                                <div class="col-span-1 sm:col-span-3">
+                                    <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Logo</label>
+                                    <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                        <div class="text-center mx-auto inline">
+                                            @if ($photo || $existedPhoto)
+                                                @if ($photo)
+                                                    <img src="{{ $photo->temporaryUrl() }}" alt="Photo Preview" class="rounded-lg shadow-md w-48 h-64">
+                                                @else
+                                                    <img src="{{ asset('storage/' . $existedPhoto) }}" alt="Photo Preview" class="rounded-lg shadow-md w-48 h-64">
+                                                @endif
+                                            @endif
+                                            @if (!$photo)
+                                                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                                                    <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                                                </svg>
+                                            @endif
+                                            <div class="mt-4 text-sm leading-6 text-gray-600">
+                                                <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                                                    Tải hình ảnh lên</span>
+                                                    <input id="file-upload" name="file-upload" wire:model="photo" type="file" class="sr-only">
+                                                </label>
+                                            </div>
+                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF nhỏ hơn hoặc bằng 2MB 125x180</p>
+                                            @error('photo')
+                                                <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-span-1 sm:col-span-2">
                                     {{-- <label for="product_uom" class="block text-sm font-medium leading-6 text-gray-900">Đơn vị tính <span class="text-red-700">*</span></label>
                                     <div class="mt-2">
                                         <input wire:model="product_uom" type="text" name="product_uom" id="product_uom" autocomplete="product_uom" class="text-right block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
@@ -108,7 +137,7 @@
                                         <input type="checkbox" @checked(old('active', $is_full)) class="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" wire:model="is_full" name="is_full" id="is_full" value="{{$is_full}}">
                                     </div>
                                 </div>
-                                <div class="col-span-1 sm:col-span-4">
+                                <div class="col-span-1 sm:col-span-3">
                                     <label for="is_active" class="block text-sm font-medium leading-6 text-gray-900">Hoạt động/ Không hoạt động</label>
                                     <div class="mt-2">
                                         
@@ -123,35 +152,6 @@
                                     @error('shopper_link')
                                         <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
                                     @enderror
-                                </div>
-                                <div class="col-span-1 sm:col-span-8">
-                                    <label for="country" class="block text-sm font-medium leading-6 text-gray-900">Logo</label>
-                                    <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                                        <div class="text-center mx-auto inline">
-                                            @if ($photo || $existedPhoto)
-                                                @if ($photo)
-                                                    <img src="{{ $photo->temporaryUrl() }}" alt="Photo Preview" class="rounded-lg shadow-md w-64 h-64">
-                                                @else
-                                                    <img src="{{ asset('storage/' . $existedPhoto) }}" alt="Photo Preview" class="rounded-lg shadow-md w-64 h-64">
-                                                @endif
-                                            @endif
-                                            @if (!$photo)
-                                                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                                                    <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
-                                                </svg>
-                                            @endif
-                                            <div class="mt-4 text-sm leading-6 text-gray-600">
-                                                <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                                                    Tải hình ảnh lên</span>
-                                                    <input id="file-upload" name="file-upload" wire:model="photo" type="file" class="sr-only">
-                                                </label>
-                                            </div>
-                                            <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF nhỏ hơn hoặc bằng 2MB</p>
-                                            @error('photo')
-                                                <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-                                    </div>
                                 </div>
                                 {{-- <div class="col-span-1 sm:col-span-8">
                                     <div class="flex justify-between items-center bg-slate-400 text-slate-950 px-3 py-1.5 mb-2">
@@ -189,7 +189,7 @@
                                     </div>
                                 </div> --}}
                                 <div class="col-span-1 sm:col-span-2 md:col-span-8">
-                                    <label for="product_description" class="block text-sm font-medium leading-6 text-gray-900">Mô tả Truyện</label>
+                                    <label for="product_description" class="block text-sm font-medium leading-6 text-gray-900">Mô tả Truyện</label> 
                                     <div class="mt-2">
                                         <div wire:ignore>
                                             <textarea wire:model="product_description"
@@ -215,10 +215,14 @@
                                 </div>
                             </div>
                          
-                            @foreach ($product_detail_list as $index => $product_detail)
+                            @for ($index = count($product_detail_list) - 1; $index >= 0; $index--)
                                 <div class="bg-gray-300">
-                                    <div class="flex justify-between items-center bg-slate-400 text-slate-950 px-3 py-1.5 mb-2">
-                                        <h4 class="font-semibold ">Chương {{$index+1}}</h4>
+                                    <div class="flex justify-between items-center bg-slate-400 text-slate-950 px-3 py-1.5 mb-2 relative">
+                                        
+                                        <h4 class="font-semibold toggle" onclick="toggleDetail({{$index}})" style="cursor: pointer">
+                                            Chương {{$index+1}}
+                                        </h4>
+                                        
                                         <div class="flex flex-col sm:flex-row items-center justify-end gap-x-6">
                                             @if($index != 0)
                                                 <button type="button" wire:click="removeProductDetail({{$index}})" class="inline-flex items-center px-2 py-2 bg-red-700 border border-transparent rounded-md font-semibold text-xs text-white tracking-widest hover:bg-red-600 active:bg-blue-700 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
@@ -229,7 +233,7 @@
                                             @endif
                                         </div>
                                     </div>
-                                    <div class="grid gap-x-6 gap-y-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-8 px-6">
+                                    <div id="chuong{{$index}}" style="display:none" class="grid gap-x-6 gap-y-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-8 px-6">
                                         <div class="col-span-8">
                                             <label for="product_detail_title.{{$index}}" class="block text-sm font-medium leading-6 text-gray-900">Tiêu đề <span class="text-red-700">*</span></label>
                                             <div class="mt-2">
@@ -275,7 +279,7 @@
                                                             <input id="product_detail_image.{{ $index }}" name="product_detail_image.{{ $index }}" wire:model="product_detail_image.{{ $index }}" type="file" multiple class="sr-only">
                                                         </label>
                                                     </div>
-                                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF nhỏ hơn hoặc bằng 2MB</p>
+                                                    <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF nhỏ hơn hoặc bằng 2MB (125x180)</p>
                                                     @error('product_detail_image.' . $index)
                                                         <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
                                                     @enderror
@@ -284,7 +288,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                            @endfor
                         </div>
                         
                     </div>
@@ -293,19 +297,77 @@
         </div>
     </form>
 </div>
+
 <script>
+    function initSelect2(){
+                $('#selectBrand').select2({
+                    placeholder: 'Chọn một mục',
+                    allowClear: true
+                });
+
+                $('#selectBrand').on('change',function(){
+                    let data = $(this).val();
+                    $wire.set('selected_brands',data,false);
+                    $wire.selected_brands = data;
+                });
+                $('#selected_categories').select2({
+                    placeholder: 'Chọn một mục',
+                    allowClear: true
+                });
+                $('#selected_categories').on('change',function(){
+                    let data = $(this).val();
+                    $wire.set('selected_categories',data,false);
+                    $wire.selected_brands = data;
+                });
+    };
+
     ClassicEditor
-        .create( document.querySelector( '#product_description' ),{
-            ckfinder: {
-                uploadUrl: '{{route('admin.ck-upload-image').'?_token='.csrf_token()}}'
-            }
-        } )
-        .then(editor => {
-            editor.model.document.on('change:data', () => {
-                @this.set('product_description', editor.getData());
-            })
+    .create( document.querySelector( '#product_description' ),{
+        ckfinder: {
+            uploadUrl: '{{route('admin.ck-upload-image').'?_token='.csrf_token()}}'
+        }
+    } )
+    .then(editor => {
+     
+        editor.model.document.on('change:data', () => {
+            
+            @this.set('product_description', editor.getData());
         })
-        .catch( error => {
-            console.error( error );
-        } );
+          
+    })
+    .catch( error => {
+        console.error( error );
+    } );
+
+    function toggleDetail(index) {
+        $('#chuong'+index).toggle();
+    }
 </script>
+
+@script()
+<script>
+
+document.addEventListener('livewire:load', function () {
+    initSelect2();
+});
+
+document.addEventListener('livewire:update', function () {
+    initSelect2();
+});
+$(document).ready(function() {
+
+    initSelect2();
+});
+window.addEventListener('reloadjs', event => {
+    $(document).ready(function() {
+
+        let firstElement = $('div[id^="chuong"]').first().show();
+        
+        initSelect2();
+    });
+});
+
+</script>
+
+@endscript
+

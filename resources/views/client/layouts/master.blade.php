@@ -7,8 +7,11 @@
 		<title>@yield('title')</title>
         <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="{{asset('library/css/style.css')}}">
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 		@vite(['resources/css/app.css','resources/js/app.js'])
         <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 		@livewireStyles
 		<style>
             @import url('https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap');
