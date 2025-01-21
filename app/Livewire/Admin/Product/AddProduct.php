@@ -176,11 +176,12 @@ class AddProduct extends Component
         $product->shopper_link = $this->shopper_link;
        
         $keys = array_values($this->product_detail_list_category);
-        $product->category_ids = $keys;
+       
+        $product->category_ids = json_encode($keys);
 
         $keys = array_values($this->product_detail_list_brand);
-        $product->brand_ids = $keys;
-
+        $product->brand_ids = json_encode($keys);
+      
         if ($this->photo) {
             $product->image = $photo_name;
         }

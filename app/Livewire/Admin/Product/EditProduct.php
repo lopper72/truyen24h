@@ -75,6 +75,13 @@ class EditProduct extends Component
         $this->product_detail_list_category = json_decode(str_replace('"', '', $product->category_ids), true);
      
         $this->product_detail_list_brand =  json_decode(str_replace('"', '', $product->brand_ids), true);
+        
+        if ( $this->product_detail_list_category == ""){
+            $this->product_detail_list_category = [];
+        }
+        if ( $this->product_detail_list_brand == ""){
+            $this->product_detail_list_brand = [];
+        }
         if($product->image){
             $this->existedPhoto = "images/products/" . $product->image;
         }
