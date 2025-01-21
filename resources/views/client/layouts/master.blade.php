@@ -5,85 +5,38 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>@yield('title')</title>
-        <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="{{asset('library/css/style.css')}}">
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-		@vite(['resources/css/app.css','resources/js/app.js'])
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playwrite+IN:wght@100..400&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		@vite(['resources/css/main.css'])
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 		@livewireStyles
-		<style>
-            @import url('https://fonts.googleapis.com/css2?family=Oregano:ital@0;1&display=swap');
-            .work-sans {
-                font-family: 'Work Sans', sans-serif;
-            }
-                    
-            #menu-toggle:checked + #menu {
-                display: block;
-            }
-            
-            .hover\:grow {
-                transition: all 0.3s;
-                transform: scale(1);
-            }
-            
-            .hover\:grow:hover {
-                transform: scale(1.02);
-            }
-            
-            .carousel-open:checked + .carousel-item {
-                position: static;
-                opacity: 100;
-            }
-            
-            .carousel-item {
-                -webkit-transition: opacity 0.6s ease-out;
-                transition: opacity 0.6s ease-out;
-            }
-            
-            #carousel-1:checked ~ .control-1,
-            #carousel-2:checked ~ .control-2,
-            #carousel-3:checked ~ .control-3 {
-                display: block;
-            }
-            
-            .carousel-indicators {
-                list-style: none;
-                margin: 0;
-                padding: 0;
-                position: absolute;
-                bottom: 2%;
-                left: 0;
-                right: 0;
-                text-align: center;
-                z-index: 10;
-            }
-            
-            #carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
-            #carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
-            #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
-                color: #000;
-                /*Set to match the Tailwind colour you want the active one to be */
-            }
-        </style>
 	</head>
-	<body class="bg-gray-300 font-sans leading-normal text-base tracking-normal">
-        <div class="mx-auto max-w-full md:max-w-7xl md:px-4 lg:px-8">
+	<body>
             @include('client.layouts.menu')
             @yield('content')
-            @include('client.layouts.footer')
-            @livewire('wire-elements-modal')
-        </div>
     </body>
     @livewireScripts
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    @vite(['resources/js/main.js'])
     <script>
-        function updateCartNumber(number){
-            const cart_count = document.getElementById("cart-count")
-            if(cart_count){
-                cart_count.innerText = number
+        function showMenuMobile() {
+            $("#menuMobile").addClass("showMenu");
+        }
+        function hideMenuMobile() {
+            $("#menuMobile").removeClass("showMenu");
+        }
+        function displaySearch() {
+            if ($('.searchPage').attr("class").includes("showSearch")) {
+                $('.searchPage').removeClass("showSearch");
+            } else {
+                $('.searchPage').addClass("showSearch");
             }
         }
     </script>
-	<script src="{{asset('library/js/app.js')}}"></script>
 </html>

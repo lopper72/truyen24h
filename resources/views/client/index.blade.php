@@ -3,81 +3,97 @@
 @section('title', 'Trang chủ')
 
 @section('content')
-    @include('client.layouts.brand')
-    <section class="bg-white">
-        <div class="container mx-auto flex items-center flex-wrap pt-4">
-            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 md:px-6 py-3 bg-cyan-800">
-                <h2 class="text-sm md:text-lg font-bold text-white">Truyện MỚI</h2>
-            </div>
-            @foreach ($new_products as $product)
-                <div class="w-1/2 lg:w-1/3 xl:w-1/4 px-2 md:px-6 py-2 md:py-4 flex flex-col">
-                    <a href="{{route('product-detail', ['id' => $product->id, 'slug' => $product->slug])}}">
-                        <div class="w-full h-52 md:h-64">
-                            @if (count($product->productDetails) > 0 && $product->productDetails[0] && $product->productDetails[0]->image)
-                                @php
-                                    $imageThumbnailCheck = json_decode($product->productDetails[0]->image);   
-                                    $imageThumbnail = $imageThumbnailCheck ? $imageThumbnailCheck[0] : $product->productDetails[0]->image;
-                                @endphp
-                                <img src="{{ asset('storage/images/products/' . $imageThumbnail) }}" alt="Hình ảnh Truyện" class="hover:grow hover:shadow-lg w-full h-full object-cover">
-                            @else
-                                <img src="{{ asset('library/images/image-not-found.jpg') }}" alt="Không có hình ảnh Truyện" class="hover:grow hover:shadow-lg  w-full h-full object-cover">
-                            @endif
+    <div class="slidePage" style="background-image: url({{ asset('library/images/slide-banner.jpg') }});">
+        <div class="container">
+            <div class="slideContent">
+                <div class="titleIndex">Truyện đề cử</div>
+                <div class="mySlide">
+                    @for ($i = 0; $i < 6; $i++)
+                        <div class="itemSlide">
+                            <div class="item">
+                                <div class="itemImage">
+                                    <span>Full</span>
+                                    <a href=""></a>
+                                    <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
+                                </div>
+                                <div class="itemContent">
+                                    <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
+                                    <p class="itemDate">12/1/2025</p>
+                                    <div class="itemChap mb-2">
+                                        <a href="">Chương 2</a>
+                                    </div>
+                                    <div class="itemChap mb-2">
+                                        <a href="">Chương 2</a>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="pt-3 flex items-center justify-between" title="{{$product->name}}">
-                            <p class="text-gray-900 font-medium text-xs md:text-sm uppercase truncate">
-                                {{ $product->name ? $product->name : '-'}}
-                            </p>
-                        </div>
-                        <p class="pt-1 text-gray-900 font-medium text-xs uppercase">{{$product->code}}</p>
-                        <p class="text-gray-900 font-medium">
-                            @if(Auth::check())
-                                <span class="text-xs md:text-sm text-green-500">{{number_format($product->retail_price)}} VNĐ</span>
-                            @else
-                                <span class="text-xs text-red-500">Đăng nhập để xem giá</span>
-                            @endif
-                        </p>
-                    </a>
+                    @endfor
                 </div>
-            @endforeach
+            </div>
         </div>
-    </section>
-    @if($best_seller_products->count() > 0)
-        <section class="bg-white">
-            <div class="container mx-auto flex items-center flex-wrap">
-                <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 md:px-6 py-3 bg-cyan-800">
-                    <h2 class="text-sm md:text-lg font-bold text-white">Truyện BÁN CHẠY</h2>
-                </div>
-                @foreach ($best_seller_products as $product)
-                <div class="w-1/2 lg:w-1/3 xl:w-1/4 px-2 md:px-6 py-2 md:py-4 flex flex-col">
-                        <a href="{{route('product-detail', ['id' => $product->product->id, 'slug' => $product->product->slug])}}">
-                            <div class="w-full h-52 md:h-64">
-                                @if (count($product->product->productDetails) > 0 && $product->product->productDetails[0] && $product->product->productDetails[0]->image)
-                                    @php
-                                        $imageThumbnailCheck = json_decode($product->product->productDetails[0]->image);   
-                                        $imageThumbnail = $imageThumbnailCheck ? $imageThumbnailCheck[0] : $product->product->productDetails[0]->image;
-                                    @endphp
-                                    <img src="{{ asset('storage/images/products/' . $imageThumbnail) }}" alt="Hình ảnh Truyện" class="hover:grow hover:shadow-lg w-full h-full object-cover">
-                                @else
-                                    <img src="{{ asset('library/images/image-not-found.jpg') }}" alt="Không có hình ảnh Truyện" class="hover:grow hover:shadow-lg  w-full h-full object-cover">
-                                @endif
+    </div>
+    <div class="indexPage">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-12 mb-4 mb-lg-0">
+                    <div class="titleIndex2"><i class="fa fa-star" aria-hidden="true"></i> <span>Mới cập nhật</span></div>
+                    <div class="row">
+                        @for ($i = 0; $i < 12; $i++)
+                            <div class="col-12 col-md-6">
+                                <div class="item py-3 borderItem" style="border-bottom: 1px solid #ebebeb;">
+                                    <div class="itemImage">
+                                        <a href=""></a>
+                                        <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
+                                    </div>
+                                    <div class="itemContent">
+                                        <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
+                                        <p class="itemDate">12/1/2025</p>
+                                        <div class="itemChap mb-2">
+                                            <a href="">Chương 2</a>
+                                        </div>
+                                        <div class="itemChap mb-2">
+                                            <a href="">Chương 2</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="pt-3 flex items-center justify-between" title="{{$product->name}}">
-                                <p class="text-gray-900 font-medium text-xs md:text-sm uppercase truncate">
-                                    {{ $product->product->name ? $product->product->name : '-'}}
-                                </p>
-                            </div>
-                            <p class="pt-1 text-gray-900 font-medium text-xs uppercase">{{$product->product->code}}</p>
-                            <p class="text-gray-900 font-medium">
-                                @if(Auth::check())
-                                    <span class="text-xs md:text-sm text-green-500">{{number_format($product->product->retail_price)}} VNĐ</span>
-                                @else
-                                    <span class="text-xs text-red-500">Đăng nhập để xem giá</span>
-                                @endif
-                            </p>
-                        </a>
+                        @endfor
                     </div>
-                @endforeach
+                </div>
+                <div class="col-lg-4 col-12">
+                    <div class="hotItem mb-4">
+                        <div class="titleIndex">Xu Hướng</div>
+                        @for ($i = 0; $i < 4; $i++)
+                                <div class="item py-3" @if ($i < 3) style="border-bottom: 1px solid #ebebeb;" @endif>
+                                    <div class="itemImage">
+                                        <a href=""></a>
+                                        <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
+                                    </div>
+                                    <div class="itemContent">
+                                        <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
+                                        <p class="itemDate">12/1/2025</p>
+                                        <div class="itemChap mb-2">
+                                            <a href="">Chương 2</a>
+                                        </div>
+                                        <div class="itemChap mb-2">
+                                            <a href="">Chương 2</a>
+                                        </div>
+                                    </div>
+                                </div>
+                        @endfor
+                        <a class="btnViewMore" href="">Xem tất cả</a>
+                    </div>
+                    <div class="hotItem">
+                        <div class="titleIndex">Thể loại</div>
+                        <div class="categoryItem">
+                            @for ($i = 0; $i < 12; $i++)
+                                <a href="">Kiếm hiệp</a>
+                            @endfor
+                        </div>
+                    </div>
+                </div>
             </div>
-        </section>
-    @endif
+        </div>
+    </div>
 @endsection
