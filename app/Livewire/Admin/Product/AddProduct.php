@@ -8,6 +8,8 @@ use App\Models\ProductSize;
 use App\Models\ProductDetail;
 use Livewire\WithFileUploads;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 class AddProduct extends Component
 {
@@ -32,7 +34,7 @@ class AddProduct extends Component
     public $brands;
     public $categories;
     public $is_active = '1';
-    public $is_full = '1';
+    public $is_full = '0';
     public $product_source;
     public $product_author;
     public $shopper_link = '';
@@ -48,9 +50,11 @@ class AddProduct extends Component
     {
         $this->brands = $brands;
         $this->categories = $categories;
-        $this->selected_brands = $brands->pluck('id')->toArray();
-        $this->selected_categories = $categories->pluck('id')->toArray();
     }
+    protected $rules = [
+        'selected_brands' => 'required', // Đặt validation của trường select2
+        'selected_categories' => 'required',
+    ];
 
     public function addProductSize(){
         $this->validate([
@@ -71,6 +75,7 @@ class AddProduct extends Component
         $new_product_detail = new ProductDetail();
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
+        $this->dispatch('reloadjs');
     }
 
     public function removeProductDetail($index){
@@ -117,8 +122,12 @@ class AddProduct extends Component
         }
     }
 
+    public function reloadjs(){
+        $this->dispatch('reloadjs');
+    }
     public function storeProduct(){
-        $this->validate([
+        $this->dispatch('reloadjs');
+        $validatedData = $this->validate([
             'product_code' => 'required|unique:products,code',
             'product_name' => 'required|unique:products,name',
             //'product_retail_price' => 'required|numeric',
@@ -156,6 +165,7 @@ class AddProduct extends Component
             ImageOptimizer::optimize($this->photo->path());
             $this->photo->storeAs(path: "public\images\products", name: $photo_name);
         }
+      
         
 
         $product = new Product();
@@ -175,12 +185,14 @@ class AddProduct extends Component
         $product->author = $this->product_author;
         $product->shopper_link = $this->shopper_link;
        
-        $keys = array_values($this->product_detail_list_category);
-        $product->category_ids = $keys;
 
-        $keys = array_values($this->product_detail_list_brand);
+        $keys = json_encode(array_values($this->selected_brands));
+       
+        $product->category_ids =  $keys;
+
+        $keys = json_encode(array_values($this->selected_brands));
         $product->brand_ids = $keys;
-
+      
         if ($this->photo) {
             $product->image = $photo_name;
         }
@@ -229,6 +241,11 @@ class AddProduct extends Component
             $id_latest = (object) ['id' => 0];
         }   
         $this->product_code = 'PROD-'.str_pad($id_latest->id + 1, 4, '0', STR_PAD_LEFT);
+    }
+
+    public function updated()
+    {
+        $this->dispatch('reloadjs');
     }
 
     public function initinalRender(){

@@ -12,14 +12,14 @@ return new class extends Migration
     public function up()
     {
         Schema::table('product_detail', function (Blueprint $table) {
-            $table->text('short_description')->change(); // Thay đổi kiểu dữ liệu cột
+            $table->text('short_description')->nullable()->change(); // Thay đổi kiểu dữ liệu cột và cho phép null
         });
     }
 
     public function down()
     {
         Schema::table('product_detail', function (Blueprint $table) {
-            $table->string('short_description')->change(); // Khôi phục kiểu dữ liệu cũ nếu cần
+            $table->string('short_description')->nullable()->change(); // Khôi phục kiểu dữ liệu cũ và cho phép null nếu cần
         });
     }
 };
