@@ -234,12 +234,21 @@
                                         </div>
                                     </div>
                                     <div id="chuong{{$index}}" style="display:none" class="grid gap-x-6 gap-y-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-8 px-6">
-                                        <div class="col-span-8">
+                                        <div class="col-span-6">
                                             <label for="product_detail_title.{{$index}}" class="block text-sm font-medium leading-6 text-gray-900">Tiêu đề <span class="text-red-700">*</span></label>
                                             <div class="mt-2">
                                                 <input wire:model="product_detail_title.{{$index}}" type="text" name="product_detail_title.{{$index}}" id="product_detail_title.{{$index}}" autocomplete="product_detail_title.{{$index}}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                             </div>
                                             @error('product_detail_title.' . $index)
+                                                <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="product_detail_order.{{$index}}" class="block text-sm font-medium leading-6 text-gray-900">Sắp Xếp<span class="text-red-700">*</span></label></label>
+                                            <div class="mt-2">
+                                                <input wire:model="product_detail_order.{{$index}}" type="number" name="product_detail_order.{{$index}}" id="product_detail_order.{{$index}}" autocomplete="product_detail_order.{{$index}}" value="{{ $index + 1 }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                            @error('product_detail_order.' . $index)
                                                 <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
                                             @enderror
                                         </div>
@@ -249,6 +258,7 @@
                                                 <textarea wire:model="product_detail_short_description.{{$index}}" id="product_detail_short_description.{{$index}}" name="product_detail_short_description.{{$index}}" rows="10" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                                             </div>
                                         </div>
+                                        
                                         <div class="col-span-8 mb-4" style="display:none">
                                             <label for="product_detail_image.{{ $index }}" class="block text-sm font-medium leading-6 text-gray-900">Hình ảnh <span class="text-red-700">*</span></label>
                                             <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-3 py-3">
