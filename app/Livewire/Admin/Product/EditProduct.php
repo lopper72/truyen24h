@@ -236,7 +236,7 @@ class EditProduct extends Component
         $product->category_ids =  $keys;
 
         if (is_null($this->selected_brands)) {
-            $this->selected_categories = [];
+            $this->selected_brands = [];
         }
         $keys = json_encode(array_values($this->selected_brands));
         $product->brand_ids = $keys;
