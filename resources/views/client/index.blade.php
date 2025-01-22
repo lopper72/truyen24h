@@ -37,28 +37,40 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-12 mb-4 mb-lg-0">
-                    <div class="titleIndex2"><i class="fa fa-star" aria-hidden="true"></i> <span>Mới cập nhật</span></div>
+                    <div class="titleIndex2"><i class="fa-solid fa-star"></i><span>Mới cập nhật</span></div>
                     <div class="row">
                         @for ($i = 0; $i < 12; $i++)
                             <div class="col-12 col-md-6">
                                 <div class="item py-3 borderItem" style="border-bottom: 1px solid #ebebeb;">
                                     <div class="itemImage">
+                                        <span>Full</span>
                                         <a href=""></a>
                                         <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
                                     </div>
                                     <div class="itemContent">
                                         <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
-                                        <p class="itemDate">12/1/2025</p>
+                                        <p class="itemRate">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </p>
                                         <div class="itemChap mb-2">
                                             <a href="">Chương 2</a>
+                                            <span class="iconNew">New</span>
                                         </div>
-                                        <div class="itemChap mb-2">
+                                        <div class="itemChap">
                                             <a href="">Chương 2</a>
+                                            <span>2/2/2025</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         @endfor
+                    </div>
+                    <div class="text-center mt-3">
+                        <a class="btnViewMore2" href="{{route('truyen_moi')}}">Xem thêm</a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-12">
@@ -67,22 +79,31 @@
                         @for ($i = 0; $i < 4; $i++)
                                 <div class="item py-3" @if ($i < 3) style="border-bottom: 1px solid #ebebeb;" @endif>
                                     <div class="itemImage">
+                                        <span>Full</span>
                                         <a href=""></a>
                                         <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
                                     </div>
                                     <div class="itemContent">
                                         <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
-                                        <p class="itemDate">12/1/2025</p>
+                                        <p class="itemRate">
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star"></i>
+                                        </p>
                                         <div class="itemChap mb-2">
                                             <a href="">Chương 2</a>
+                                            <span class="iconNew">New</span>
                                         </div>
-                                        <div class="itemChap mb-2">
+                                        <div class="itemChap">
                                             <a href="">Chương 2</a>
+                                            <span>2/2/2025</span>
                                         </div>
                                     </div>
                                 </div>
                         @endfor
-                        <a class="btnViewMore" href="">Xem tất cả</a>
+                        <a class="btnViewMore" href="{{route('xu_huong')}}">Xem tất cả</a>
                     </div>
                     <div class="hotItem">
                         <div class="titleIndex">Thể loại</div>
