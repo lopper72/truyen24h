@@ -234,7 +234,7 @@
                                         </div>
                                     </div>
                                     <div id="chuong{{$index}}" style="display:none" class="grid gap-x-6 gap-y-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-8 px-6">
-                                        <div class="col-span-6">
+                                        <div class="col-span-8">
                                             <label for="product_detail_title.{{$index}}" class="block text-sm font-medium leading-6 text-gray-900">Tiêu đề <span class="text-red-700">*</span></label>
                                             <div class="mt-2">
                                                 <input wire:model="product_detail_title.{{$index}}" type="text" name="product_detail_title.{{$index}}" id="product_detail_title.{{$index}}" autocomplete="product_detail_title.{{$index}}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
