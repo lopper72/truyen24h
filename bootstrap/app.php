@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             App\Http\Middleware\LocalizationMiddleware::class,
             App\Http\Middleware\Admin\ShareDataMiddleware::class,
         ]);
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
