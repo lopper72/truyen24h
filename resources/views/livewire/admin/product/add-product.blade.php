@@ -190,7 +190,7 @@
                                     <label for="product_description" class="block text-sm font-medium leading-6 text-gray-900">Mô tả Truyện</label>
                                     <div class="mt-2">
                                         <div wire:ignore>
-                                            <textarea wire:model="product_description"  wire:change="reloadjs"
+                                            <textarea wire:model="product_description"
                                                       class="min-h-fit h-48 "
                                                       name="product_description"
                                                       id="product_description">{{$product_description}}</textarea>
@@ -234,6 +234,15 @@
                                                 <input wire:model="product_detail_title.{{$index}}" type="text" name="product_detail_title.{{$index}}" id="product_detail_title.{{$index}}" autocomplete="product_detail_title.{{$index}}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                             </div>
                                             @error('product_detail_title.' . $index)
+                                                <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-span-2">
+                                            <label for="product_detail_order.{{$index}}" class="block text-sm font-medium leading-6 text-gray-900">Sắp Xếp<span class="text-red-700">*</span></label></label>
+                                            <div class="mt-2">
+                                                <input wire:model="product_detail_order.{{$index}}" type="number" name="product_detail_order.{{$index}}" id="product_detail_order.{{$index}}" autocomplete="product_detail_order.{{$index}}" value="{{ $index + 1 }}" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                            </div>
+                                            @error('product_detail_order.' . $index)
                                                 <div class="mt-1 text-sm text-red-600">{{ $message }}</div>
                                             @enderror
                                         </div>

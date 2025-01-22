@@ -29,7 +29,8 @@ class AddProduct extends Component
     public $product_detail_list = [];
     public $product_detail_image = [];
     public $product_detail_image_list = [];
-    public $product_detail_title = []; 
+    public $product_detail_title = [];
+    public $product_detail_order = [];  
     public $product_detail_short_description = [];
     public $brands;
     public $categories;
@@ -73,8 +74,11 @@ class AddProduct extends Component
 
     public function addProductDetail(){
         $new_product_detail = new ProductDetail();
+
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
+        $this->product_detail_order[$this->product_detail_number] =$this->product_detail_number; 
+      
         $this->dispatch('reloadjs');
     }
 
@@ -94,6 +98,10 @@ class AddProduct extends Component
         if(array_key_exists($index, $this->product_detail_title)){
             unset($this->product_detail_title[$index]);
             $this->product_detail_title = array_values($this->product_detail_title);
+        }
+        if(array_key_exists($index, $this->product_detail_order)){
+            unset($this->product_detail_order[$index]);
+            $this->product_detail_order = array_values($this->product_detail_order);
         }
         
         $this->product_detail_number--;
@@ -147,9 +155,11 @@ class AddProduct extends Component
 
         for($i = 0; $i < $this->product_detail_number; $i++){
             $this->validate([
-                'product_detail_title.'.$i => 'required'
+                'product_detail_title.'.$i => 'required',
+                'product_detail_order.'.$i => 'required'
             ], [
-                'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.'
+                'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.',
+                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.'
             ]);
         }
         if ($this->photo) {
@@ -208,6 +218,7 @@ class AddProduct extends Component
 
         for($i = 0; $i < $this->product_detail_number; $i++){
             $this->product_detail_list[$i]->title = $this->product_detail_title[$i];
+            $this->product_detail_list[$i]->number_order = $this->product_detail_order[$i];
             if(array_key_exists($i, $this->product_detail_short_description)){
                 $this->product_detail_list[$i]->short_description = $this->product_detail_short_description[$i];
             }
@@ -249,13 +260,26 @@ class AddProduct extends Component
     }
 
     public function initinalRender(){
+        
+        
         if($this->product_detail_number == 0){
             $new_product_detail = new ProductDetail();
-            $new_product_detail->title = "Mặc định";
-            $this->product_detail_title[0] = "Mặc định";
+            $count =  $this->product_detail_number + 1;
+            $new_product_detail->title = "Chương ".$count;
+            $this->product_detail_title[0] = "Chương ".$count;
+            $this->product_detail_order[0] = 1;
             $this->product_detail_list[] = $new_product_detail;
             $this->product_detail_number++;
+        }else{
+            $count =  $this->product_detail_number;
+            if($this->product_detail_number == 2){
+                $this->product_detail_order[1] = 2;
+            }else{
+                $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+            }
+            $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
         }
+        
         for($i = 0; $i < count($this->product_detail_image); $i++){
             if(array_key_exists($i,$this->product_detail_image)){
                 if(array_key_exists($i,$this->product_detail_image_list)){

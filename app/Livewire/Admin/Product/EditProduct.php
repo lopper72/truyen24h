@@ -32,6 +32,7 @@ class EditProduct extends Component
     public $product_detail_image = [];
     public $product_detail_image_list = [];
     public $product_detail_title = []; 
+    public $product_detail_order = []; 
     public $product_detail_short_description = [];
     public $id;
     public $brands;
@@ -140,6 +141,11 @@ class EditProduct extends Component
             unset($this->product_detail_title[$index]);
             $this->product_detail_title = array_values($this->product_detail_title);
         }
+        if(array_key_exists($index, $this->product_detail_order)){
+            unset($this->product_detail_order[$index]);
+            $this->product_detail_order = array_values($this->product_detail_order);
+        }
+        
         
         $this->product_detail_number--;
     }
@@ -193,9 +199,11 @@ class EditProduct extends Component
 
         for($i = 0; $i < $this->product_detail_number; $i++){
             $this->validate([
-                'product_detail_title.'.$i => 'required'
+                'product_detail_title.'.$i => 'required',
+                'product_detail_order.'.$i => 'required'
             ], [
-                'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.'
+                'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.',
+                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.'
             ]);
         }
 
@@ -229,10 +237,15 @@ class EditProduct extends Component
         $product->author = $this->product_author;
         $product->shopper_link = $this->shopper_link;
        
+        if (is_null($this->selected_categories)) {
+            $this->selected_categories = [];
+        }
         $keys = json_encode(array_values($this->selected_categories));
-       
         $product->category_ids =  $keys;
 
+        if (is_null($this->selected_brands)) {
+            $this->selected_brands = [];
+        }
         $keys = json_encode(array_values($this->selected_brands));
         $product->brand_ids = $keys;
         
@@ -277,6 +290,8 @@ class EditProduct extends Component
             }
 
             $this->product_detail_list[$i]->title = $this->product_detail_title[$i];
+            $this->product_detail_list[$i]->number_order = $this->product_detail_order[$i];
+            
             if(array_key_exists($i, $this->product_detail_short_description)){
                 $this->product_detail_list[$i]->short_description = $this->product_detail_short_description[$i];
             }
@@ -355,9 +370,18 @@ class EditProduct extends Component
             $this->product_detail_number = count($product_details);
             foreach ($product_details as $key => $product_detail) {
                 $this->product_detail_title[$key] = $product_detail->title;
+                $this->product_detail_order[$key] = $product_detail->number_order;
                 $this->product_detail_image_list[$key] = $product_detail->image;
                 $this->product_detail_short_description[$key] = $product_detail->short_description;
             }
+        }else{
+            $count =  $this->product_detail_number;
+            if($this->product_detail_number == 2){
+                $this->product_detail_order[1] = 2;
+            }else{
+                $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+            }
+            $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
         }
         return view('livewire.admin.product.edit-product', ['brands' => $this->brands, 'categories' => $this->categories, 'product_detail_list' => $this->product_detail_list, 'product_detail_image_list' => $this->product_detail_image_list, 'product_description' => $this->product_description]);
     }
