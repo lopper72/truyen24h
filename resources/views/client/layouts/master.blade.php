@@ -23,31 +23,5 @@
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
-    <script src="{{ asset('cssjs/main.js') }}">
-    <script>
-        function showMenuMobile() {
-            $("#menuMobile").addClass("showMenu");
-        }
-        function hideMenuMobile() {
-            $("#menuMobile").removeClass("showMenu");
-        }
-        function displaySearch() {
-            if ($('.searchPage').attr("class").includes("showSearch")) {
-                $('.searchPage').removeClass("showSearch");
-            } else {
-                $('.searchPage').addClass("showSearch");
-            }
-        }
-        const scrollToTopBtn = document.getElementById('scrollToTopBtn');
-        window.addEventListener('scroll', function() {
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollToTopBtn.style.display = 'block';
-            } else {
-                scrollToTopBtn.style.display = 'none';
-            }
-        });
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+    <script src="{{asset('cssjs/main.js')}}"></script>
 </html>
