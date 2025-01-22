@@ -229,10 +229,15 @@ class EditProduct extends Component
         $product->author = $this->product_author;
         $product->shopper_link = $this->shopper_link;
        
+        if (is_null($this->selected_categories)) {
+            $this->selected_categories = [];
+        }
         $keys = json_encode(array_values($this->selected_categories));
-       
         $product->category_ids =  $keys;
 
+        if (is_null($this->selected_brands)) {
+            $this->selected_categories = [];
+        }
         $keys = json_encode(array_values($this->selected_brands));
         $product->brand_ids = $keys;
         
