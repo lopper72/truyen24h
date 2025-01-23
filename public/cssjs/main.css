@@ -101,6 +101,12 @@ ul{
 }
 .itemTitle{
     margin-bottom: 8px;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 .itemTitle a{
     font-size: 16px;
@@ -208,7 +214,7 @@ ul{
     text-align: right;
     padding: 15px 0;
 }
-.loginUser a{
+.loginUser a.iconLogin{
     color: #666;
     font-weight: 500;
     display: inline-block;
@@ -218,9 +224,13 @@ ul{
     transition: all 0.3s;
     margin-left: 10px;
 }
-.loginUser a:hover{
+.loginUser a.iconLogin:hover{
     color: #fff;
     background-color: #666;
+}
+.urlUser{
+    font-weight: 700;
+    color: #f78da7;
 }
 #menuMobile {
     position: fixed;
@@ -549,6 +559,33 @@ ul{
     display: none;
     z-index: 9999;
 }
+.contentShopee{
+    position: relative;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    margin-top: 50px;
+}
+.imgShopee{
+    width: 300px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+.contentShopee i{
+    color: #ffd900;
+}
+.contentShopee a{
+    color: #333;
+    text-decoration: underline !important;
+}
+.contentShopee h4,
+.contentShopee a:hover{
+    color: #f78da7;
+}
+.contentShopee span{
+    color: #cb2128;
+    font-weight: 700;
+}
 @media only screen and (min-width: 992px) {
     .iconMenu {
       display: none !important;
@@ -588,5 +625,7 @@ ul{
         width: auto;
         padding-right: 5px;
     }
-    
+    .btnChapContent select{
+        width: 125px;
+    }
 }

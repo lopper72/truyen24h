@@ -15,7 +15,7 @@
                 <div class="collapse navbar-collapse" id="navbarContent">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="{{route('xu_huong')}}">Xu Hướng</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{route('truyen_moi')}}">Truyện Mới</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{route('truyen')}}">Truyện Mới</a></li>
                     </ul>
                 </div>
             </nav>
@@ -28,8 +28,12 @@
 </div>
 <div class="container">
     <div class="loginUser">
-        <a href="{{ route('login') }}">Đăng Nhập</a>
-        <a href="">Đăng Ký</a>
+        @if(Auth::check())
+            Xin chào <a class="urlUser" href="">{{Auth::user()->name}}</a>
+        @else
+            <a class="iconLogin" href="">Đăng Nhập</a>
+            <a class="iconLogin" href="">Đăng Ký</a>
+        @endif
     </div>
 </div>
 <div id="menuMobile">
@@ -39,7 +43,7 @@
     </div>
     <ul>
         <li><a href="{{route('xu_huong')}}">Xu Hướng</a></li>
-        <li><a href="{{route('truyen_moi')}}">Truyện Mới</a></li>
+        <li><a href="{{route('truyen')}}">Truyện Mới</a></li>
     </ul>
 </div>
 <span id="scrollToTopBtn"><i class="fa-solid fa-arrow-up"></i></span>

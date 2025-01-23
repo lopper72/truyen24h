@@ -24,16 +24,27 @@
             </ul>
         </div>
         <div class="row">
-            @for ($i = 0; $i < 12; $i++)
+            @foreach ($products as $key => $product)
+                @php
+                    $chaps = DB::select('
+                        SELECT *
+                        FROM product_detail
+                        WHERE product_id = '.$product->id.'
+                        ORDER BY number_order DESC
+                        LIMIT 2
+                    ');
+                @endphp
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="item py-3 borderItem" style="border-bottom: 1px solid #ebebeb;">
                         <div class="itemImage">
-                            <span>Full</span>
-                            <a href=""></a>
-                            <img src="{{ asset('library/images/product/truyen1.jpg') }}" alt="aa" class="object-fit-cover w-100 h-100">
+                            @if ($product->is_full == 1)
+                                <span>Full</span>
+                            @endif
+                            <a href="{{route('truyen_chitiet',$product->slug)}}"></a>
+                            <img src="{{asset('storage/images/products/' . $product->image)}}" alt="{{$product->name}}" class="object-fit-cover w-100 h-100">
                         </div>
                         <div class="itemContent">
-                            <h4 class="itemTitle"><a href="">Ánh Sáng Đời Em</a></h4>
+                            <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$product->slug)}}">{{$product->name}}</a></h4>
                             <p class="itemRate">
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
@@ -41,18 +52,20 @@
                                 <i class="fa-solid fa-star"></i>
                                 <i class="fa-solid fa-star"></i>
                             </p>
-                            <div class="itemChap mb-2">
-                                <a href="">Chương 2</a>
-                                <span class="iconNew">New</span>
-                            </div>
-                            <div class="itemChap">
-                                <a href="">Chương 2</a>
-                                <span>2/2/2025</span>
-                            </div>
+                            @foreach ($chaps as $k => $chap)
+                                <div class="itemChap mt-2">
+                                    <a href="{{route('chap',[$product->slug,$chap->number_order])}}">{{$chap->title}}</a>
+                                    @if ($k == 0)
+                                        <span class="iconNew">New</span>
+                                    @else
+                                        <span>{{date('d/m/Y', strtotime($chap->created_at))}}</span>
+                                    @endif
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
-            @endfor
+            @endforeach
         </div>
     </div>
 @endsection

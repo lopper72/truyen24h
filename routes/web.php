@@ -170,7 +170,8 @@ Route::get('/spotlight', [SpotlightController::class, 'index'])->name('spotlight
 Route::get('/spotlight/search', [SpotlightController::class, 'search'])->name('spotlight.search');
 
 Route::get('/xu-huong', [ClientProductController::class, 'trend'])->name('xu_huong');
-Route::get('/truyen-moi', [ClientProductController::class, 'index'])->name('truyen_moi');
+Route::get('/truyen', [ClientProductController::class, 'index'])->name('truyen');
 Route::get('/truyen/{slug}', [ClientProductController::class, 'detail'])->name('truyen_chitiet');
 Route::get('/truyen/{slug}/chuong-{number}', [ClientProductController::class, 'chap'])->name('chap');
+Route::post('/check-url-shopee', [ClientProductController::class, 'checkUrlShopee'])->name('check_url_shopee');
 
