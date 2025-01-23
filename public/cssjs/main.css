@@ -131,7 +131,7 @@ ul{
     border-radius: 10px;
     background-color: #ebebeb;
     transition: ease-in-out 0.3s;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 .itemChap a:hover{
     color: #fff;
@@ -139,7 +139,7 @@ ul{
 }
 .itemChap span{
     font-size: 12px;
-    font-weight: 700;
+    font-weight: 500;
     color: #aaa;
 }
 .itemChap span.iconNew{
@@ -593,7 +593,7 @@ ul{
 }
 @media only screen and (max-width: 600px) {
     .logoImage a{
-        font-size: 25px;
+        font-size: 20px;
     }
     .searchResult,
     .fmiSearch{
@@ -625,7 +625,22 @@ ul{
         width: auto;
         padding-right: 5px;
     }
+    .btnChapContent{
+        display: block;
+    }
     .btnChapContent select{
-        width: 125px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    .itemButtonDetail a:first-child{
+        margin-right: 0px;
+    }
+    .itemButtonDetail{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .navbar {
+        display: none;
     }
 }
