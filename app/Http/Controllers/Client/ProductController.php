@@ -45,7 +45,7 @@ class ProductController extends Controller
     {
         session_start();
         $product = Product::where('slug', '=', $slug)->get();
-        if(in_array($product[0]->id,$_SESSION['product_id'])){
+        if(isset($_SESSION['product_id']) && in_array($product[0]->id,$_SESSION['product_id'])){
             $_SESSION['show_url_shopee'] = 'n';
         }else{
             $_SESSION['show_url_shopee'] = 'y';
@@ -61,8 +61,12 @@ class ProductController extends Controller
 
     public function checkUrlShopee(){
         session_start();
-        if (!in_array($_POST['idProduct'],$_SESSION['product_id'])) {
+        if (!isset($_SESSION['product_id'])) {
             $_SESSION['product_id'][] = $_POST['idProduct'];
+        }else {
+            if (!in_array($_POST['idProduct'],$_SESSION['product_id'])) {
+                $_SESSION['product_id'][] = $_POST['idProduct'];
+            }
         }
         $_SESSION['show_url_shopee'] = 'n';
         return response()->json(['message' => 'completed']);
