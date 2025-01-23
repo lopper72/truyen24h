@@ -1,95 +1,71 @@
-{{-- @extends('client.layouts.master')
+@extends('client.layouts.master')
 
 @section('title', 'Truyện')
 
 @section('content')
-<div class="bg-white py-8">
-    <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
-        <nav class="w-full z-30 top-0 px-6 py-1">
-            <div class="w-full container mx-auto flex flex-wrap items-center justify-between mt-0 px-2 py-3">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">Truyện</h2>
+    <div class="container">
+        <div class="orderPage">
+            <div class="titleIndex2">
+                <i class="fa-solid fa-star"></i><span>Tất cả truyện</span>
             </div>
-        </nav>
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1555982105-d25af4182e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
+            <ul>
+                <li>
+                    <a href="">A-Z</a>
+                </li>
+                <li>
+                    <a href="">Z-A</a>
+                </li>
+                <li>
+                    <a href="">Xu Hướng</a>
+                </li>
+                <li>
+                    <a href="">Xem Nhiều</a>
+                </li>
+            </ul>
         </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1508423134147-addf71308178?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
+        <div class="row">
+            @foreach ($products as $key => $product)
+                @php
+                    $chaps = DB::select('
+                        SELECT *
+                        FROM product_detail
+                        WHERE product_id = '.$product->id.'
+                        ORDER BY number_order DESC
+                        LIMIT 2
+                    ');
+                @endphp
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="item py-3 borderItem" style="border-bottom: 1px solid #ebebeb;">
+                        <div class="itemImage">
+                            @if ($product->is_full == 1)
+                                <span>Full</span>
+                            @endif
+                            <a href="{{route('truyen_chitiet',$product->slug)}}"></a>
+                            <img src="{{asset('storage/images/products/' . $product->image)}}" alt="{{$product->name}}" class="object-fit-cover w-100 h-100">
+                        </div>
+                        <div class="itemContent">
+                            <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$product->slug)}}">{{$product->name}}</a></h4>
+                            <p class="itemRate">
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                                <i class="fa-solid fa-star"></i>
+                            </p>
+                            @foreach ($chaps as $k => $chap)
+                                <div class="itemChap mt-2">
+                                    <a href="{{route('chap',[$product->slug,$chap->number_order])}}">{{$chap->title}}</a>
+                                    @if ($k == 0)
+                                        <span class="iconNew">New</span>
+                                    @else
+                                        <span>{{date('d/m/Y', strtotime($chap->created_at))}}</span>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1467949576168-6ce8e2df4e13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1550837368-6594235de85c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
-        </div>
-
-        <div class="w-full md:w-1/3 xl:w-1/4 p-6 flex flex-col">
-            <a href="{{route('product-detail')}}">
-                <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1551431009-a802eeec77b1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&h=400&q=80">
-                <div class="pt-3 flex items-center justify-between">
-                    <p class="">Product Name</p>
-                </div>
-                <p class="pt-1 text-gray-900">£9.99</p>
-            </a>
+            @endforeach
         </div>
     </div>
-</div>
-  
-@endsection --}}
+@endsection

@@ -4,6 +4,9 @@ body{
 a{
     text-decoration: none !important;
 }
+ul{
+    padding-left: 0 !important;
+}
 .titleIndex{
     position: relative;
     background: linear-gradient(to right, #f78da7 40%, #f78da7);
@@ -98,16 +101,26 @@ a{
 }
 .itemTitle{
     margin-bottom: 8px;
+    line-height: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 .itemTitle a{
     font-size: 16px;
     color: #333;
 }
+.itemRate,
 .itemDate{
     font-size: 12px;
     color: #666;
     font-weight: 400;
     margin-bottom: 5px;
+}
+.itemRate i{
+    color: #ffd900;
 }
 .itemChap a{
     color: #333;
@@ -118,10 +131,22 @@ a{
     border-radius: 10px;
     background-color: #ebebeb;
     transition: ease-in-out 0.3s;
+    margin-right: 20px;
 }
 .itemChap a:hover{
     color: #fff;
     background-color: #f78da7;
+}
+.itemChap span{
+    font-size: 12px;
+    font-weight: 700;
+    color: #aaa;
+}
+.itemChap span.iconNew{
+    padding: 2px 7px;
+    background-color: #cb2128;
+    color: #fff;
+    text-transform: uppercase;
 }
 .headerNav {
     background: linear-gradient(to right, #f78da7 40%, #f78da7);
@@ -189,7 +214,7 @@ a{
     text-align: right;
     padding: 15px 0;
 }
-.loginUser a{
+.loginUser a.iconLogin{
     color: #666;
     font-weight: 500;
     display: inline-block;
@@ -199,9 +224,13 @@ a{
     transition: all 0.3s;
     margin-left: 10px;
 }
-.loginUser a:hover{
+.loginUser a.iconLogin:hover{
     color: #fff;
     background-color: #666;
+}
+.urlUser{
+    font-weight: 700;
+    color: #f78da7;
 }
 #menuMobile {
     position: fixed;
@@ -306,7 +335,14 @@ a{
     margin-top: 20px;
     padding: 6px 0px;
 }
-
+.btnViewMore2{
+    background-color: #f78da7;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-align: center;
+    padding: 6px 40px;
+}
 .categoryItem a{
     color: #333;
     font-size: 12px;
@@ -374,8 +410,184 @@ a{
     color: #333;
     border-bottom: 1px solid #cccccc;
 }
+.searchResult a:hover{
+    background-color: #d7d7d7;
+}
+.orderPage{
+    position: relative;
+}
+.orderPage ul{
+    position: absolute;
+    top: 0;
+    right:0;
+    list-style: none;
+}
+.orderPage ul li{
+    display: inline-block;
+}
+.orderPage ul li a{
+    font-weight: 400;
+    font-size: 14px;
+    color: #aaa;
+    padding: 5px 10px;
+    text-transform: capitalize;
+}
+.orderPage ul li a:hover{
+    color: #f78da7;
+    border-bottom: 2px solid #f78da7;
+}
+.itemDetail{
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 40px 0;
+}
+.itemDetail h3{
+    color: #fff;
+    font-weight: 400;
+    text-transform: capitalize;
+}
+.contentDetail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.itemImageDetail{
+    background: #fff;
+    border-radius: 15px;
+    padding: 15px;
+    width: 225px;
+}
+.itemContentDetail{
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 20px 30px 30px;
+    width: calc(100% - 250px);
+}
+.itemRateDetail{
+    color: #ffd900;
+    font-size: 25px;
+}
+.listChap,
+.itemContentDetail ul{
+    list-style: none;
+    font-size: 16px;
+    color: #666;
+}
+.itemContentDetail ul li{
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.itemContentDetail ul li span:first-child{
+    font-weight: 600;
+    display: inline-block;
+    width: 100px;
+}
+.itemButtonDetail a:first-child{
+    margin-right: 10px;
+}
+.btnChap{
+    background-color: #f78da7;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+}
+.itemDesc{
+    font-size: 14px;
+    color: #666;
+}
+.listChap li{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+.listChap li a{
+    font-weight: 500;
+    color: #333;
+}
+.listChap li a:hover{
+    color: #f78da7;
+}
+.listChap span{
+    font-size: 12px;
+    font-weight: 700;
+    color: #aaa;
+}
+.listChap span.iconNew{
+    padding: 2px 7px;
+    background-color: #cb2128;
+    color: #fff;
+    text-transform: uppercase;
+}
+.breadcrumbChap{
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+.breadcrumbChap a{
+    color: #666;
+}
+.breadcrumbChap a:hover{
+    color: #f78da7;
+}
+.btnChapContent{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.btnChapContent select{
+    width: 150px;
+}
+#scrollToTopBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f78da7;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 20px;
+    display: none;
+    z-index: 9999;
+}
+.contentShopee{
+    position: relative;
+    text-align: center;
+    font-size: 16px;
+    color: #333;
+    margin-top: 50px;
+}
+.imgShopee{
+    width: 300px;
+    margin: auto;
+    margin-bottom: 30px;
+}
+.contentShopee i{
+    color: #ffd900;
+}
+.contentShopee a{
+    color: #333;
+    text-decoration: underline !important;
+}
+.contentShopee h4,
+.contentShopee a:hover{
+    color: #f78da7;
+}
+.contentShopee span{
+    color: #cb2128;
+    font-weight: 700;
+}
 @media only screen and (min-width: 992px) {
-    .itemMenu {
+    .iconMenu {
       display: none !important;
     }
 }
@@ -389,5 +601,31 @@ a{
     }
     .btnSearch{
         width: 100px;
+    }
+    .orderPage ul{
+        position: relative;
+        margin-top: 10px;
+        text-align: center;
+    }
+    .contentDetail{
+        display: block;
+        text-align: center;
+    }
+    .itemImageDetail{
+        margin: auto;
+    }
+    .itemContentDetail{
+        margin-top: 20px;
+        width: 100%;
+    }
+    .itemContentDetail ul li{
+        justify-content: center;
+    }
+    .itemContentDetail ul li span:first-child{
+        width: auto;
+        padding-right: 5px;
+    }
+    .btnChapContent select{
+        width: 125px;
     }
 }

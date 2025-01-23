@@ -169,5 +169,9 @@ Route::get('/collection/{slug}', [CollectionController::class, 'index'])->name('
 Route::get('/spotlight', [SpotlightController::class, 'index'])->name('spotlight');
 Route::get('/spotlight/search', [SpotlightController::class, 'search'])->name('spotlight.search');
 
-Route::get('/nhan-hang/{slug}', [ClientBrandController::class, 'index'])->name('brand');
+Route::get('/xu-huong', [ClientProductController::class, 'trend'])->name('xu_huong');
+Route::get('/truyen', [ClientProductController::class, 'index'])->name('truyen');
+Route::get('/truyen/{slug}', [ClientProductController::class, 'detail'])->name('truyen_chitiet');
+Route::get('/truyen/{slug}/chuong-{number}', [ClientProductController::class, 'chap'])->name('chap');
+Route::post('/check-url-shopee', [ClientProductController::class, 'checkUrlShopee'])->name('check_url_shopee');
 

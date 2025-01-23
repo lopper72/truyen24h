@@ -19,9 +19,15 @@ class IndexController extends Controller
     }
     public function index()
     {   
-        $new_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'desc')->limit(8)->get();
-        $best_seller_products = OrderDetail::select('product_id', DB::raw('SUM(quantity) as total_quantity'))->groupBy('product_id')->orderBy('total_quantity', 'desc')->limit(8)->get();
-        $brands = Brand::orderBy('id', 'desc')->limit(8)->get();
-        return view('client.index', ['new_products' => $new_products, 'best_seller_products' => $best_seller_products, 'brands' => $brands]);
+        $top_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'desc')->limit(8)->get();
+        $new_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->limit(12)->get();
+        $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'asc')->limit(4)->get();
+        $brands = Brand::orderBy('name', 'desc')->get();
+        return view('client.index', [
+            'top_products' => $top_products,
+            'new_products' => $new_products,
+            'trend_products' => $trend_products,
+            'brands' => $brands
+        ]);
     }
 }
