@@ -71,12 +71,34 @@
                     @endphp
                 @endif
             </div>
+            <div class="btnChapContent">
+                <select id="selChap2" class="form-select">
+                    @foreach ($chaps as $item)
+                        <option @if($item->id == $chap->id) selected @endif value="{{$item->number_order}}" data-redirect="{{route('chap',[$product->slug,$item->number_order])}}">{{$item->title}}</option>
+                    @endforeach
+                </select>
+                <div class="itemButtonDetail">
+                    @if ($chap->number_order != 1)
+                        <a class="btnChap" href="{{route('chap',[$product->slug,$chap->number_order - 1])}}"><i class="fa-solid fa-arrow-left"></i> Chương trước</a>
+                    @endif
+                    @if ($chap->number_order < count($chaps))
+                        <a class="btnChap" href="{{route('chap',[$product->slug,$chap->number_order + 1])}}">Chương tiếp <i class="fa-solid fa-arrow-right"></i></a>
+                    @endif
+                </div>
+            </div>
             <div class="titleIndex2">
                 <i class="fa-solid fa-star"></i><span>Bình luận</span>
             </div>
         </div>
         <script>
             document.getElementById('selChap').addEventListener('change', function() {
+                var selectedOption = this.options[this.selectedIndex];
+                var redirectUrl = selectedOption.getAttribute('data-redirect');
+                if (redirectUrl) {
+                    window.location.href = redirectUrl;
+                }
+            });
+            document.getElementById('selChap2').addEventListener('change', function() {
                 var selectedOption = this.options[this.selectedIndex];
                 var redirectUrl = selectedOption.getAttribute('data-redirect');
                 if (redirectUrl) {

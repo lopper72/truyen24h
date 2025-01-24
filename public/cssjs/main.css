@@ -199,10 +199,13 @@ ul{
     font-size: 18px;
     color: #f78da7;
     display: inline-block;
-    padding: 9px 13px;
+    width: 45px;
+    height: 45px;
     border-radius: 100%;
     background-color: #fff;
     margin-left: 7px;
+    line-height: 45px;
+    text-align: center;
 }
 .searchIconMobile a:hover{
     color: #f78da7;
@@ -354,6 +357,11 @@ ul{
     transition: ease-in-out 0.3s;
     display: inline-block;
     margin: 0 10px 10px 0;
+    transition: ease-in-out 0.2s all;
+}
+.categoryItem a:hover{
+    background-color: #f78da7;
+    color: #fff;
 }
 .searchPage{
     display: none;
@@ -552,12 +560,15 @@ ul{
     right: 20px;
     background-color: #f78da7;
     color: white;
-    padding: 10px 15px;
     border-radius: 4px;
     cursor: pointer;
     font-size: 20px;
     display: none;
     z-index: 9999;
+    width: 45px;
+    height: 45px;
+    line-height: 45px;
+    text-align: center;
 }
 .contentShopee{
     position: relative;
