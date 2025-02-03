@@ -12,19 +12,16 @@ class SpotlightController extends Controller
 {
     public function index()
     {   
-        $search = request()->search;
-        $id_user = 0;
-        if (isset(Auth::user()->id)) {
-            $id_user = Auth::user()->id;
-        }
-        $user = User::where('id',$id_user)->where('role','customer')->first();
-
-        $products = Product::all();
-        return view('client.spotlight', ['user' => $user,'search'=>$search]);
+        $products = Product::where('is_active', '=', '1')
+        ->where('name','LIKE', "%{$_GET['keyword']}%")
+        ->orWhere('description','LIKE', "%{$_GET['keyword']}%")
+        ->orWhereNull('is_active')
+        ->orderBy('created_at', 'desc')->get();
+        return view('client.search-result', ['products'=>$products]);
     }
     public function search()
     {
         $input_search = $_GET['input_search'];
-        return redirect()->route('spotlight',['search'=>$input_search]);
+        return redirect()->route('search_result',['keyword'=>$input_search]);
     }
 }

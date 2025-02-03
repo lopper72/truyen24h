@@ -28,7 +28,7 @@
                                     <img src="{{asset('storage/images/products/' . $top_product->image)}}" alt="{{$top_product->name}}" class="object-fit-cover w-100 h-100">
                                 </div>
                                 <div class="itemContent">
-                                    <h4 class="itemTitle"><a href="{{asset('storage/images/products/' . $top_product->image)}}">{{$top_product->name}}</a></h4>
+                                    <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$top_product->slug)}}">{{$top_product->name}}</a></h4>
                                     <p class="itemDate">{{date('d/m/Y', strtotime($top_product->created_at))}}</p>
                                     @foreach ($chaps as $k => $chap)
                                         <div class="itemChap mt-2">
