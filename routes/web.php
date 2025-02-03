@@ -174,4 +174,5 @@ Route::get('/truyen', [ClientProductController::class, 'index'])->name('truyen')
 Route::get('/truyen/{slug}', [ClientProductController::class, 'detail'])->name('truyen_chitiet');
 Route::get('/truyen/{slug}/chuong-{number}', [ClientProductController::class, 'chap'])->name('chap');
 Route::post('/check-url-shopee', [ClientProductController::class, 'checkUrlShopee'])->name('check_url_shopee');
+Route::get('/truyen?order={order}', [ClientProductController::class, 'order'])->name('order');
 

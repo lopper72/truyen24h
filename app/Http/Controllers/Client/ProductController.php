@@ -12,8 +12,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->get();
-        return view('client.product', ['products' => $products]);
+        $request_uri = $_SERVER['REQUEST_URI'];
+        parse_str(parse_url($request_uri, PHP_URL_QUERY), $query_params);
+        if(isset($query_params['order'])){
+            return $this->order($query_params['order']);
+        }else{
+            $products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->get();
+            return view('client.product', ['products' => $products, 'order' => '']);
+        }
     }
     public function trend()
     {
@@ -70,5 +76,25 @@ class ProductController extends Controller
         }
         $_SESSION['show_url_shopee'] = 'n';
         return response()->json(['message' => 'completed']);
+    }
+
+    public function order($order)
+    {   
+        switch ($order) {
+            case 'atoz':
+                $columnOrder = "name";
+                $statusOrder = "asc";
+                break;
+            case 'ztoa':
+                $columnOrder = "name";
+                $statusOrder = "desc";
+                break;
+            default:
+                $columnOrder = "created_at";
+                $statusOrder = "desc";
+                break;
+        }
+        $products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy($columnOrder, $statusOrder)->get();
+        return view('client.product', ['products' => $products,'order' => $order]);
     }
 }
