@@ -1,6 +1,6 @@
 <div class="searchPage">
     <div class="container">
-        <form action="{{ route('spotlight.search') }}">
+        <form action="{{ route('search') }}">
             @livewire('client.search')
         </form>
     </div>
@@ -20,8 +20,8 @@
                 </div>
             </nav>
             <div class="searchIconMobile">
-                <a class="iconMenu" href="#" onclick="showMenuMobile();"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                <a href="#" onclick="displaySearch();"><i class="fa fa-search" aria-hidden="true"></i></a>
+                <a class="iconMenu" href="javascript:void(0)" onclick="showMenuMobile();"><i class="fa fa-bars" aria-hidden="true"></i></a>
+                <a href="javascript:void(0)" onclick="displaySearch();"><i class="fa fa-search" aria-hidden="true"></i></a>
             </div>
         </div>
     </div>

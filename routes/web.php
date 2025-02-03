@@ -166,8 +166,8 @@ Route::get('/san-pham/{id}/{slug}', [ClientProductController::class, 'index'])->
 Route::get('/quen-mat-khau', [IndexController::class, 'forgot_password'])->name('forgot_password');
 
 Route::get('/collection/{slug}', [CollectionController::class, 'index'])->name('collection');
-Route::get('/spotlight', [SpotlightController::class, 'index'])->name('spotlight');
-Route::get('/spotlight/search', [SpotlightController::class, 'search'])->name('spotlight.search');
+Route::get('/search-result', [SpotlightController::class, 'index'])->name('search_result');
+Route::get('/search', [SpotlightController::class, 'search'])->name('search');
 
 Route::get('/xu-huong', [ClientProductController::class, 'trend'])->name('xu_huong');
 Route::get('/truyen', [ClientProductController::class, 'index'])->name('truyen');
