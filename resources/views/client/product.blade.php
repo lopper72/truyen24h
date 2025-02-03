@@ -10,16 +10,16 @@
             </div>
             <ul>
                 <li>
-                    <a href="">A-Z</a>
+                    <a @if ($order == 'atoz') class='active' @endif href="{{route('order','atoz')}}">A-Z</a>
                 </li>
                 <li>
-                    <a href="">Z-A</a>
+                    <a @if ($order == 'ztoa') class='active' @endif href="{{route('order','ztoa')}}">Z-A</a>
                 </li>
                 <li>
-                    <a href="">Xu Hướng</a>
+                    <a @if ($order == 'trend') class='active' @endif href="{{route('order','trend')}}">Xu Hướng</a>
                 </li>
                 <li>
-                    <a href="">Xem Nhiều</a>
+                    <a @if ($order == 'view') class='active' @endif href="{{route('order','view')}}">Xem Nhiều</a>
                 </li>
             </ul>
         </div>
