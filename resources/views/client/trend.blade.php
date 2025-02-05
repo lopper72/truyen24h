@@ -59,6 +59,12 @@
                         ORDER BY number_order DESC
                         LIMIT 2
                     ');
+                    $rates = DB::select('
+                        SELECT avg(rate) as total_rate, product_id
+                        FROM rates
+                        WHERE product_id = '.$trend_product->id.'
+                        GROUP BY product_id
+                    ');
                 @endphp
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="item py-3 borderItem" style="border-bottom: 1px solid #ebebeb;">
@@ -72,11 +78,20 @@
                         <div class="itemContent">
                             <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$trend_product->slug)}}">{{$trend_product->name}}</a></h4>
                             <p class="itemRate">
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
-                                <i class="fa-solid fa-star"></i>
+                                @if (count($rates))
+                                    @for ($i = 0; $i < $rates[0]->total_rate; $i++)
+                                        <i class="fa-solid fa-star"></i>
+                                    @endfor
+                                    @for ($j = 5; $j > $i; $j--)
+                                        <i class="fa-regular fa-star"></i>
+                                    @endfor
+                                @else
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                @endif
                             </p>
                             @foreach ($chaps as $k => $chap)
                                 <div class="itemChap mt-2">
@@ -92,6 +107,7 @@
                     </div>
                 </div>
             @endforeach
+            {{$trend_products->links('client.layouts.pagination')}}
         </div>
     </div>
 @endsection

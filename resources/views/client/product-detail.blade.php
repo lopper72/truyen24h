@@ -10,51 +10,78 @@
                 <div class="itemImageDetail">
                     <img src="{{asset('storage/images/products/' . $product->image)}}" alt="{{$product->name}}" class="object-fit-cover w-100 h-100">
                 </div>
-                <div class="itemContentDetail">
-                    <p class="itemRateDetail">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </p>
-                    <ul>
-                        <li>
-                            <span>Đánh giá</span>
-                            <span>5/5</span>
-                        </li>
-                        <li>
-                            <span>Phát hành</span>
-                            <span>{{date('d/m/Y', strtotime($product->created_at))}}</span>
-                        </li>
-                        <li>
-                            <span>Tình trạng</span>
-                            @if ($product->is_full == 0)
-                                <span>Đang ra</span>
-                            @else
-                                <span>Hoàn thành</span>
-                            @endif
-                        </li>
-                        <li>
-                            <span>Tác giả</span>
-                            @if ($product->author != "")
-                                <span>{{$product->author}}</span>
-                            @else
-                                <span>No Name</span>
-                            @endif
-                        </li>
-                        <li>
-                            <span>Thể loại</span>
-                            <span>
-                                @php
-                                    $countBrand = count($brands);
-                                @endphp
-                                @foreach ($brands as $key => $brand)
-                                    {{$brand[0]->name}}@if(($key+1) < $countBrand), @endif
-                                @endforeach
-                            </span>
-                        </li>
-                    </ul>
+                <div class="itemContentDetails">
+                    <div class="itemContentDetail">
+                        <div class="itemContentDetailLeft">
+                            <p class="itemRateDetail">
+                                @if (count($rateDetail))
+                                    @for ($i = 0; $i < $rateDetail[0]->total_rate; $i++)
+                                        <i class="fa-solid fa-star"></i>
+                                    @endfor
+                                    @for ($j = 5; $j > $i; $j--)
+                                        <i class="fa-regular fa-star"></i>
+                                    @endfor
+                                @else
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                    <i class="fa-regular fa-star"></i>
+                                @endif
+                            </p>
+                            <ul>
+                                <li>
+                                    <span>Đánh giá</span>
+                                    <span>@if (count($rateDetail)) {{number_format($rateDetail[0]->total_rate)}}/5 @else 0/5 @endif Từ {{count($rateDetail)}} đánh giá</span>
+                                </li>
+                                <li>
+                                    <span>Tình trạng</span>
+                                    @if ($product->is_full == 0)
+                                        <span>Đang ra</span>
+                                    @else
+                                        <span>Hoàn thành</span>
+                                    @endif
+                                </li>
+                                <li>
+                                    <span>Phát hành</span>
+                                    <span>{{date('d/m/Y', strtotime($product->created_at))}}</span>
+                                </li>
+                                <li>
+                                    <span>Tác giả</span>
+                                    @if ($product->author != "")
+                                        <span>{{$product->author}}</span>
+                                    @else
+                                        <span>No Name</span>
+                                    @endif
+                                </li>
+                                <li>
+                                    <span>Thể loại</span>
+                                    <span>
+                                        @php
+                                            $countBrand = count($brands);
+                                        @endphp
+                                        @foreach ($brands as $key => $brand)
+                                            {{$brand[0]->name}}@if(($key+1) < $countBrand), @endif
+                                        @endforeach
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="itemContentDetailRight">
+                            <div class="itemCommentBookmarkLeft">
+                                <div class="iconitemCommentBookmar">
+                                    <a href="#itemComment"><i class="fa-solid fa-message"></i></a>
+                                </div>
+                                <span>@if (count($comments)) {{count($comments)}} @else 0 @endif comments</span>
+                            </div>
+                            <div class="itemCommentBookmarkLeft">
+                                <div class="iconitemCommentBookmar">
+                                    <a href="javascript:void(0)"><i class="fa-solid fa-bookmark"></i></a>
+                                </div>
+                                <span>Bookmark</span>
+                            </div>
+                        </div>
+                    </div>
                     @if (isset($chaps))
                         <div class="itemButtonDetail">
                             <a class="btnChap" href="{{route('chap',[$product->slug,$chaps[count($chaps)-1]->number_order])}}">Chương đầu</a>
@@ -91,9 +118,34 @@
                         </li>
                     @endforeach
                 </ul>
-                <div class="titleIndex2">
+                <div id="itemComment" class="titleIndex2">
                     <i class="fa-solid fa-star"></i><span>Bình luận</span>
                 </div>
+                @include('client.layouts.comment')
+                @if (count($comments))
+                    <div class="titleIndex2">
+                        <i class="fa-solid fa-star"></i><span>Có {{count($comments)}} bình luận</span>
+                    </div>
+                @endif
+                @foreach ($comments as $item => $comment)
+                    @php
+                        $userComents = DB::select('
+                            SELECT *
+                            FROM users
+                            WHERE id = '.$comment->user_id.'
+                        ');
+                    @endphp
+                    <div class="listComment">
+                        <div class="headerListComment">
+                            <b>{{$userComents[0]->name}}</b><span>{{date('d/m/Y', strtotime($comment->created_at))}}</span>
+                        </div>
+                        <div>
+                            @php
+                                echo nl2br($comment->comment);
+                            @endphp
+                        </div>
+                    </div>
+                @endforeach
             </div>
             <div class="col-12 col-lg-4">
                 <div class="hotItem mb-4">
@@ -110,6 +162,12 @@
                                 ORDER BY number_order DESC
                                 LIMIT 2
                             ');
+                            $rates = DB::select('
+                                SELECT avg(rate) as total_rate, product_id
+                                FROM rates
+                                WHERE product_id = '.$trend_product->id.'
+                                GROUP BY product_id
+                            ');
                         @endphp
                             <div class="item py-3" @if (($key + 1) < $countTrend) style="border-bottom: 1px solid #ebebeb;" @endif>
                                 <div class="itemImage">
@@ -122,11 +180,20 @@
                                 <div class="itemContent">
                                     <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$trend_product->slug)}}">{{$trend_product->name}}</a></h4>
                                     <p class="itemRate">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
+                                        @if (count($rates))
+                                            @for ($i = 0; $i < $rates[0]->total_rate; $i++)
+                                                <i class="fa-solid fa-star"></i>
+                                            @endfor
+                                            @for ($j = 5; $j > $i; $j--)
+                                                <i class="fa-regular fa-star"></i>
+                                            @endfor
+                                        @else
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                            <i class="fa-regular fa-star"></i>
+                                        @endif
                                     </p>
                                     @foreach ($chaps as $k => $chap)
                                         <div class="itemChap mt-2">

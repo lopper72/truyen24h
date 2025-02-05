@@ -21,7 +21,12 @@ class SpotlightController extends Controller
     }
     public function search()
     {
-        $input_search = $_GET['input_search'];
+        if (isset($_GET['input_search'])) {
+            $input_search = $_GET['input_search'];
+        }else{
+            $input_search = $_GET['inputSearchIndex'];
+        }
+        
         return redirect()->route('search_result',['keyword'=>$input_search]);
     }
 }

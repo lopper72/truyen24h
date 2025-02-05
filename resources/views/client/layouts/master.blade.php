@@ -8,7 +8,6 @@
         <link rel="icon" type="image/x-icon" href="{{asset('library/images/favicon.jpg')}}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Playwrite+IN:wght@100..400&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('cssjs/main.css') }}?v={{date('dmY', time())}}">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -21,6 +20,10 @@
 	<body>
             @include('client.layouts.menu')
             @yield('content')
+            @if(!Auth::check())
+                @include('client.layouts.modal_login')
+                @include('client.layouts.modal_signup')
+            @endif
     </body>
     @livewireScripts
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
