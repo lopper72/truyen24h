@@ -32,7 +32,7 @@
                             <ul>
                                 <li>
                                     <span>Đánh giá</span>
-                                    <span>@if (count($rateDetail)) {{number_format($rateDetail[0]->total_rate)}}/5 @else 0/5 @endif Từ {{count($rateDetail)}} đánh giá</span>
+                                    <span>@if (count($rateDetail)) {{number_format($rateDetail[0]->total_rate)}}/5 @else 0/5 @endif Từ {{count($comments)}} đánh giá</span>
                                 </li>
                                 <li>
                                     <span>Tình trạng</span>
