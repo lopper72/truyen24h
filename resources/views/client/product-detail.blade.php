@@ -15,7 +15,7 @@
                         <div class="itemContentDetailLeft">
                             <p class="itemRateDetail">
                                 @if (count($rateDetail))
-                                    @for ($i = 0; $i < $rateDetail[0]->total_rate; $i++)
+                                    @for ($i = 0; $i < intval($rateDetail[0]->total_rate); $i++)
                                         <i class="fa-solid fa-star"></i>
                                     @endfor
                                     @for ($j = 5; $j > $i; $j--)
@@ -181,7 +181,7 @@
                                     <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$trend_product->slug)}}">{{$trend_product->name}}</a></h4>
                                     <p class="itemRate">
                                         @if (count($rates))
-                                            @for ($i = 0; $i < $rates[0]->total_rate; $i++)
+                                            @for ($i = 0; $i < intval($rates[0]->total_rate); $i++)
                                                 <i class="fa-solid fa-star"></i>
                                             @endfor
                                             @for ($j = 5; $j > $i; $j--)

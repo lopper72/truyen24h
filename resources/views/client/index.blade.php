@@ -83,7 +83,7 @@
                                         <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$new_product->slug)}}">{{$new_product->name}}</a></h4>
                                         <p class="itemRate">
                                             @if (count($rates))
-                                                @for ($i = 0; $i < $rates[0]->total_rate; $i++)
+                                                @for ($i = 0; $i < intval($rates[0]->total_rate); $i++)
                                                     <i class="fa-solid fa-star"></i>
                                                 @endfor
                                                 @for ($j = 5; $j > $i; $j--)
@@ -153,7 +153,7 @@
                                         <h4 class="itemTitle"><a href="{{route('truyen_chitiet',$trend_product->slug)}}">{{$trend_product->name}}</a></h4>
                                         <p class="itemRate">
                                             @if (count($rates))
-                                                @for ($i = 0; $i < $rates[0]->total_rate; $i++)
+                                                @for ($i = 0; $i < intval($rates[0]->total_rate); $i++)
                                                     <i class="fa-solid fa-star"></i>
                                                 @endfor
                                                 @for ($j = 5; $j > $i; $j--)
