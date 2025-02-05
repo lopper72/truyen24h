@@ -102,6 +102,9 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-12">
+                    <form action="{{route('search')}}">
+                        @livewire('client.search-index')
+                    </form>
                     <div class="hotItem mb-4">
                         <div class="titleIndex">Xu Hướng</div>
                         @php
@@ -153,7 +156,7 @@
                         <div class="titleIndex">Thể loại</div>
                         <div class="categoryItem">
                             @foreach ($brands as $key => $brand)
-                                <a href="">{{$brand->name}}</a>
+                                <a href="{{route('the_loai',$brand->slug)}}">{{$brand->name}}</a>
                             @endforeach
                         </div>
                     </div>

@@ -147,32 +147,23 @@ Route::get('/admin/login', Login::class)->middleware([CheckAdminLogin::class])->
 Route::get('/admin/logout', [Login::class, 'handleLogout'])->name('admin.logout');
 Route::get('/admin/setup', Setup::class)->middleware([CheckSetup::class])->name('admin.setup');
 
-
-
 Route::group(['middleware' => [CustomerAuth::class]], function () {
     Route::get('/', [IndexController::class, 'index'])->name('index');
-    Route::get('/dang-nhap', LoginClient::class)->name('login');
     Route::get('/logout', [LoginClient::class, 'handleLogout'])->name('logout');
-    Route::get('/gio-hang', [CartController::class, 'index'])->name('cart');
     Route::get('/thong-tin-tai-khoan', [UserClientController::class, 'index'])->name('info_user');
     Route::get('/doi-mat-khau', [ChangePasswordController::class, 'index'])->name('change_password');
-    Route::get('/thanh-toan', [PaymentController::class, 'index'])->name('payment');
-    Route::get('/thong-tin-don-hang', [OrderSummariesController::class, 'index'])->name('order_summaries');
-    Route::get('/chi-tiet-don-hang/{id}', [OrderHistoryController::class, 'index'])->name('order_history');
-    Route::get('/lien-he', [ContactController::class, 'index'])->name('contact');
 });
 
-Route::get('/san-pham/{id}/{slug}', [ClientProductController::class, 'index'])->name('product-detail');
 Route::get('/quen-mat-khau', [IndexController::class, 'forgot_password'])->name('forgot_password');
-
-Route::get('/collection/{slug}', [CollectionController::class, 'index'])->name('collection');
 Route::get('/search-result', [SpotlightController::class, 'index'])->name('search_result');
 Route::get('/search', [SpotlightController::class, 'search'])->name('search');
-
 Route::get('/xu-huong', [ClientProductController::class, 'trend'])->name('xu_huong');
 Route::get('/truyen', [ClientProductController::class, 'index'])->name('truyen');
 Route::get('/truyen/{slug}', [ClientProductController::class, 'detail'])->name('truyen_chitiet');
 Route::get('/truyen/{slug}/chuong-{number}', [ClientProductController::class, 'chap'])->name('chap');
 Route::post('/check-url-shopee', [ClientProductController::class, 'checkUrlShopee'])->name('check_url_shopee');
 Route::get('/truyen?order={order}', [ClientProductController::class, 'order'])->name('order');
+Route::get('/the-loai/{brandSlug}', [ClientProductController::class, 'brand'])->name('the_loai');
+Route::post('/login', [UserClientController::class, 'login'])->name('login');
+Route::post('/signup', [UserClientController::class, 'signup'])->name('signup');
 

@@ -92,6 +92,7 @@
                     </div>
                 </div>
             @endforeach
+            {{$trend_products->links('client.layouts.pagination')}}
         </div>
     </div>
 @endsection

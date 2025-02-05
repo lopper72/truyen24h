@@ -150,13 +150,11 @@ ul{
 }
 .headerNav {
     background: linear-gradient(to right, #f78da7 40%, #f78da7);
-    padding: 20px 0;
+    padding: 15px 0;
 }
-.logoImage a{
-    font-family: 'Playwrite IN';
-    font-weight: 400;
-    color: #fff;
-    font-size: 30px;
+.logoImage{
+    position: relative;
+    width: 270px;
 }
 .navbarMenu {
     display: flex;
@@ -386,6 +384,7 @@ ul{
     border: 1px solid #d7d7d7;
     color: #333;
     font-size: 14px;
+    outline: none;
 }
 .fmiSearch:focus{
     border: 1px solid #d7d7d7;
@@ -598,14 +597,142 @@ ul{
     color: #cb2128;
     font-weight: 700;
 }
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    font-size: 14px;
+    font-weight: bold;
+}
+.pagination a {
+    color: black;
+    padding: 8px 15px;
+}
+.pagination a.active {
+    background-color: #f78da7;
+    color: white;
+    border-radius: 5px;
+}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+    border-radius: 5px;
+}
+#modalSignUp .modal-content,
+#modalLogIn .modal-content{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#modalSignUp .modal-dialog,
+#modalLogIn .modal-dialog{
+    top: 40%;
+    transform: translateY(-50%);
+}
+.formSearchIndex{
+    position: relative;
+    width: 100%;
+    margin-bottom: 25px;
+}
+.formSearchIndex input{
+    width: 100%;
+    height: 40px;
+    border: 1px solid rgba(45, 45, 45, 0.3);
+    border-radius: 5px;
+    padding: 0 45px 0 15px;
+    line-height: 40px;
+    outline: none;
+}
+.formSearchIndex::before{
+    content: '';
+    position: absolute;
+    height: 27px;
+    width: 1px;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #aaa;
+}
+.formSearchIndex i{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    cursor: pointer;
+    color: #aaa;
+}
+.searchResultIndex{
+    position: absolute;
+    left: 0;
+    width: 100%;
+    top: 100%;
+    background-color: #fff;
+    z-index: 5;
+    border: 1px solid #cccccc;
+    border-bottom: 0;
+    box-shadow: 5px 10px 8px #888888;
+}
+.searchResultIndex a,
+.searchResultIndex span{
+    font-size: 14px;
+    display: block;
+    padding: 10px 20px;
+    color: #333;
+    border-bottom: 1px solid #cccccc;
+}
+.searchResultIndex a:hover{
+    background-color: #d7d7d7;
+}
+.logoImageMobi{
+    filter: invert(1);
+    width: 80%;
+    margin: auto;
+}
+.commentContent{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.avatarUser{
+    width: 100px;
+}
+.formComment{
+    width: calc(100% - 120px);
+    margin-bottom: 20px;
+}
+.starRating {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+.starIcon {
+    font-size: 30px;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.starIcon:hover {
+    color: #ffcc00;
+}
+.starIcon.selected {
+    color: #ffcc00;
+}
+#fmiCommentText{
+    outline: none;
+    padding: 5px 10px;
+    width: 100%;
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+}
 @media only screen and (min-width: 992px) {
     .iconMenu {
       display: none !important;
     }
 }
 @media only screen and (max-width: 600px) {
-    .logoImage a{
-        font-size: 20px;
+    .logoImage{
+        width: 600px;
     }
     .searchResult,
     .fmiSearch{
@@ -655,5 +782,17 @@ ul{
     .navbar {
         display: none;
     }
-    
+    .commentContent{
+        display: list-item;
+    }
+    .formComment{
+        width: 100%;
+        text-align: center;
+    }
+    .avatarUser{
+        margin: auto;
+    }
+    .starRating{
+        justify-content: center;
+    }
 }

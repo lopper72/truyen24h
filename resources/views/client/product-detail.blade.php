@@ -94,6 +94,9 @@
                 <div class="titleIndex2">
                     <i class="fa-solid fa-star"></i><span>Bình luận</span>
                 </div>
+                <div>
+                    @include('client.layouts.comment')
+                </div>
             </div>
             <div class="col-12 col-lg-4">
                 <div class="hotItem mb-4">

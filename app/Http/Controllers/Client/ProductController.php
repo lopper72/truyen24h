@@ -17,14 +17,14 @@ class ProductController extends Controller
         if(isset($query_params['order'])){
             return $this->order($query_params['order']);
         }else{
-            $products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->get();
+            $products = Product::where('is_active', '=', '1')->orderBy('created_at', 'desc')->paginate(20);
             return view('client.product', ['products' => $products, 'order' => '']);
         }
     }
     public function trend()
     {
-        $top_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'desc')->limit(8)->get();
-        $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->get();
+        $top_products = Product::where('is_active', '=', '1')->orderBy('id', 'desc')->limit(8)->get();
+        $trend_products = Product::where('is_active', '=', '1')->orderBy('created_at', 'desc')->paginate(20);
         return view('client.trend', [
             'top_products' => $top_products,
             'trend_products' => $trend_products
@@ -32,16 +32,16 @@ class ProductController extends Controller
     }
     public function detail($slug)
     {
-        $product = Product::where('slug', '=', $slug)->get();
-        $chaps = ProductDetail::where('product_id', '=', $product[0]->id)->orderBy('number_order','desc')->get();
-        $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'asc')->limit(4)->get();
-        $list_brands =  json_decode(str_replace('"', '', $product[0]->brand_ids), true);
+        $product = Product::where('slug', '=', $slug)->first();
+        $chaps = ProductDetail::where('product_id', '=', $product->id)->orderBy('number_order','desc')->get();
+        $trend_products = Product::where('is_active', '=', '1')->orderBy('id', 'asc')->limit(4)->get();
+        $list_brands =  json_decode(str_replace('"', '', $product->brand_ids), true);
         $brands = [];
         for ($i=0; $i < count($list_brands); $i++) { 
             $brands[] = Brand::where('id', '=', $list_brands[$i])->orderBy('name', 'asc')->get();
         }    
         return view('client.product-detail', [
-            'product' => $product[0],
+            'product' => $product,
             'chaps' => $chaps,
             'trend_products' => $trend_products,
             'brands' => $brands
@@ -50,17 +50,17 @@ class ProductController extends Controller
     public function chap($slug,$number)
     {
         session_start();
-        $product = Product::where('slug', '=', $slug)->get();
-        if(isset($_SESSION['product_id']) && in_array($product[0]->id,$_SESSION['product_id'])){
+        $product = Product::where('slug', '=', $slug)->first();
+        if(isset($_SESSION['product_id']) && in_array($product->id,$_SESSION['product_id'])){
             $_SESSION['show_url_shopee'] = 'n';
         }else{
             $_SESSION['show_url_shopee'] = 'y';
         }
-        $chap = ProductDetail::where('product_id', '=', $product[0]->id)->where('number_order', '=', $number)->get();
-        $chaps = ProductDetail::where('product_id', '=', $product[0]->id)->orderBy('number_order', 'asc')->get();
+        $chap = ProductDetail::where('product_id', '=', $product->id)->where('number_order', '=', $number)->first();
+        $chaps = ProductDetail::where('product_id', '=', $product->id)->orderBy('number_order', 'asc')->get();
         return view('client.content',[
-            'product' => $product[0],
-            'chap' => $chap[0],
+            'product' => $product,
+            'chap' => $chap,
             'chaps' => $chaps
         ]);
     }
@@ -94,7 +94,15 @@ class ProductController extends Controller
                 $statusOrder = "desc";
                 break;
         }
-        $products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy($columnOrder, $statusOrder)->get();
+        $products = Product::where('is_active', '=', '1')->orderBy($columnOrder, $statusOrder)->paginate(20);
         return view('client.product', ['products' => $products,'order' => $order]);
+    }
+
+    public function brand($brandSlug){
+        $brand = Brand::where('slug', '=', $brandSlug)->first();
+        $products = Product::where('brand_ids','LIKE', "%{$brand->id}%")
+        ->where('is_active', '=', '1')
+        ->orderBy('created_at', 'desc')->paginate(20);
+        return view('client.brand', ['products' => $products, 'brandName' => $brand->name]);
     }
 }

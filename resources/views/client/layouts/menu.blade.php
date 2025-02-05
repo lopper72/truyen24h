@@ -9,7 +9,9 @@
     <div class="container">
         <div class="navbarMenu">
             <div class="logoImage">
-                <a href="{{ route('index') }}">truyenfullbo.com</a>
+                <a href="{{ route('index') }}">
+                    <img src="{{asset('library/images/logo.png')}}" alt="Logo" class="object-fit-cover w-100 h-100">
+                </a>
             </div>
             <nav class="navbar navbar-expand-lg navbar-light">
                 <div class="collapse navbar-collapse" id="navbarContent">
@@ -29,17 +31,19 @@
 <div class="container">
     <div class="loginUser">
         @if(Auth::check())
-            Xin chào <a class="urlUser" href="">{{Auth::user()->name}}</a>
+            Xin chào <a class="urlUser" href="{{ route('logout') }}" title="Đăng xuất">{{Auth::user()->name}}</a>
         @else
-            <a class="iconLogin" href="">Đăng Nhập</a>
-            <a class="iconLogin" href="">Đăng Ký</a>
+            <a class="iconLogin" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalLogIn">Đăng Nhập</a>
+            <a class="iconLogin" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalSignUp">Đăng Ký</a>
         @endif
     </div>
 </div>
 <div id="menuMobile">
     <i class="fa-solid fa-xmark" onclick="hideMenuMobile();"></i>
-    <div class="logoImage mb-4">
-        <a href="{{ route('index') }}">truyenfullbo.com</a>
+    <div class="logoImageMobi mb-3">
+        <a href="{{ route('index') }}">
+            <img src="{{asset('library/images/logo.png')}}" alt="Logo" class="object-fit-cover w-100 h-100">
+        </a>
     </div>
     <ul>
         <li><a href="{{route('xu_huong')}}">Xu Hướng</a></li>
