@@ -166,4 +166,5 @@ Route::get('/truyen?order={order}', [ClientProductController::class, 'order'])->
 Route::get('/the-loai/{brandSlug}', [ClientProductController::class, 'brand'])->name('the_loai');
 Route::post('/login', [UserClientController::class, 'login'])->name('login');
 Route::post('/signup', [UserClientController::class, 'signup'])->name('signup');
+Route::post('/comment', [ClientProductController::class, 'comment'])->name('comment');
 

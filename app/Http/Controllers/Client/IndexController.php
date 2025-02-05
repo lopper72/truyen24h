@@ -17,9 +17,9 @@ class IndexController extends Controller
     }
     public function index()
     {   
-        $top_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'desc')->limit(8)->get();
+        $top_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('view', 'desc')->orderBy('created_at', 'desc')->limit(8)->get();
         $new_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->limit(12)->get();
-        $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('id', 'asc')->limit(4)->get();
+        $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('view', 'desc')->orderBy('name', 'asc')->limit(4)->get();
         $brands = Brand::orderBy('name', 'desc')->get();
         return view('client.index', [
             'top_products' => $top_products,

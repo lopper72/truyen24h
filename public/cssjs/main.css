@@ -466,30 +466,38 @@ ul{
     border-radius: 15px;
     padding: 15px;
     width: 225px;
+    height: 315px;
 }
-.itemContentDetail{
+.itemContentDetails{
     border-radius: 20px;
     background-color: rgba(255, 255, 255, 0.5);
     padding: 20px 30px 30px;
     width: calc(100% - 250px);
+    height: 315px;
+    overflow: hidden;
+}
+.itemContentDetail{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .itemRateDetail{
     color: #ffd900;
     font-size: 25px;
 }
 .listChap,
-.itemContentDetail ul{
+.itemContentDetailLeft ul{
     list-style: none;
     font-size: 16px;
     color: #666;
 }
-.itemContentDetail ul li{
+.itemContentDetailLeft ul li{
     padding-bottom: 10px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.itemContentDetail ul li span:first-child{
+.itemContentDetailLeft ul li span:first-child{
     font-weight: 600;
     display: inline-block;
     width: 100px;
@@ -624,6 +632,7 @@ ul{
     background-repeat: no-repeat;
     background-size: cover;
 }
+#modalComment .modal-dialog,
 #modalSignUp .modal-dialog,
 #modalLogIn .modal-dialog{
     top: 40%;
@@ -697,7 +706,7 @@ ul{
 .avatarUser{
     width: 100px;
 }
-.formComment{
+#formComment{
     width: calc(100% - 120px);
     margin-bottom: 20px;
 }
@@ -725,9 +734,73 @@ ul{
     border: 1px solid #ddd;
     margin-bottom: 20px;
 }
+.listComment{
+    position: relative;
+    padding: 15px;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 5px rgb(75 70 70 / 31%);
+    margin-bottom: 15px;
+}
+.headerListComment{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 7px;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+.headerListComment span{
+    font-style: italic;
+    color: #aaa;
+    font-size: 14px;
+    padding-left: 15px;
+}
+.itemContentDetailRight{
+    position: relative;
+    width: 200px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #666;
+    font-size: 14px;
+}
+.iconitemCommentBookmar i{
+    font-size: 30px;
+    color: #f78da7;
+}
 @media only screen and (min-width: 992px) {
     .iconMenu {
       display: none !important;
+    }
+}
+@media only screen and (max-width: 991px) {
+    .contentDetail{
+        display: block;
+        text-align: center;
+    }
+    .itemImageDetail{
+        height: auto;
+        margin: auto;
+    }
+    .itemContentDetails{
+        width: 100%;
+        margin-top: 20px;
+        height: auto;
+    }
+    .itemContentDetail{
+        display: block;
+    }
+    .itemContentDetailLeft ul li{
+        justify-content: center;
+    }
+    .itemContentDetailLeft ul li span:first-child{
+        width: auto;
+        padding-right: 5px;
+    }
+    .itemContentDetailRight{
+        width: 100%;
+        justify-content: space-evenly;
+        margin-bottom: 30px;
     }
 }
 @media only screen and (max-width: 600px) {
@@ -745,24 +818,6 @@ ul{
         position: relative;
         margin-top: 10px;
         text-align: center;
-    }
-    .contentDetail{
-        display: block;
-        text-align: center;
-    }
-    .itemImageDetail{
-        margin: auto;
-    }
-    .itemContentDetail{
-        margin-top: 20px;
-        width: 100%;
-    }
-    .itemContentDetail ul li{
-        justify-content: center;
-    }
-    .itemContentDetail ul li span:first-child{
-        width: auto;
-        padding-right: 5px;
     }
     .btnChapContent{
         display: block;
@@ -783,9 +838,9 @@ ul{
         display: none;
     }
     .commentContent{
-        display: list-item;
+        display: block;
     }
-    .formComment{
+    #formComment{
         width: 100%;
         text-align: center;
     }

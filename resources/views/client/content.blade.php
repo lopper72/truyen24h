@@ -89,6 +89,31 @@
             <div class="titleIndex2">
                 <i class="fa-solid fa-star"></i><span>Bình luận</span>
             </div>
+            @include('client.layouts.comment')
+            @if (count($comments))
+                <div class="titleIndex2">
+                    <i class="fa-solid fa-star"></i><span>Có {{count($comments)}} bình luận</span>
+                </div>
+            @endif
+            @foreach ($comments as $item => $comment)
+                @php
+                    $userComents = DB::select('
+                        SELECT *
+                        FROM users
+                        WHERE id = '.$comment->user_id.'
+                    ');
+                @endphp
+                <div class="listComment">
+                    <div class="headerListComment">
+                        <b>{{$userComents[0]->name}}</b><span>{{date('d/m/Y', strtotime($comment->created_at))}}</span>
+                    </div>
+                    <div>
+                        @php
+                            echo nl2br($comment->comment);
+                        @endphp
+                    </div>
+                </div>
+            @endforeach
         </div>
         <script>
             document.getElementById('selChap').addEventListener('change', function() {
