@@ -78,6 +78,14 @@ class AddProduct extends Component
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
         $this->product_detail_order[$this->product_detail_number] =$this->product_detail_number; 
+
+        $count =  $this->product_detail_number;
+        $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
+        if($this->product_detail_number == 2){
+            $this->product_detail_order[1] = 2;
+        }else{
+            $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+        }
       
         $this->dispatch('reloadjs');
     }
@@ -259,6 +267,13 @@ class AddProduct extends Component
         $this->dispatch('reloadjs');
     }
 
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'photo' => 'image|max:10240',
+        ]);
+    }
+    
     public function initinalRender(){
         
         
@@ -271,13 +286,13 @@ class AddProduct extends Component
             $this->product_detail_list[] = $new_product_detail;
             $this->product_detail_number++;
         }else{
-            $count =  $this->product_detail_number;
-            if($this->product_detail_number == 2){
-                $this->product_detail_order[1] = 2;
-            }else{
-                $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
-            }
-            $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
+            // $count =  $this->product_detail_number;
+            // if($this->product_detail_number == 2){
+            //     $this->product_detail_order[1] = 2;
+            // }else{
+            //     $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+            // }
+            // $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
         }
         
         for($i = 0; $i < count($this->product_detail_image); $i++){
