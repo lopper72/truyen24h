@@ -11,7 +11,7 @@
                 <p>Mời bạn CLICK vào liên kết bên dưới và <span>MỞ ỨNG DỤNG SHOPEE</span> để mở khóa toàn bộ chương truyện!</p>
                 <p><i class="fa-solid fa-hand-point-right"></i> <a onclick="unlockPage();" target="blank" href="{{$product->shopper_link}}">{{$product->shopper_link}}</a></p>
                 <div class="imgShopee">
-                    <img src="{{asset('library/images/image-shopee.png')}}" alt="image shopee" class="object-fit-cover w-100 h-100">
+                    <img src="{{asset('library/images/image-shopee-v2.png')}}" alt="image shopee" class="object-fit-cover w-100 h-100">
                 </div>
                 <h4>TRUYỆN FULL BỘ XIN CHÂN THÀNH CẢM ƠN QUÝ ĐỘC GIẢ!</h4>
             </div>
