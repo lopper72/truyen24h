@@ -119,7 +119,17 @@ class EditProduct extends Component
     public function addProductDetail(){
         $new_product_detail = new ProductDetail();
         $this->product_detail_list[] = $new_product_detail;
+       
         $this->product_detail_number++;
+        $count =  $this->product_detail_number;
+        $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
+        if($this->product_detail_number == 2){
+            $this->product_detail_order[1] = 2;
+        }else{
+            $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+        }
+        
+        
         $this->dispatch('reloadjs');
     }
 
@@ -375,13 +385,13 @@ class EditProduct extends Component
                 $this->product_detail_short_description[$key] = $product_detail->short_description;
             }
         }else{
-            $count =  $this->product_detail_number;
-            if($this->product_detail_number == 2){
-                $this->product_detail_order[1] = 2;
-            }else{
-                $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
-            }
-            $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
+            // $count =  $this->product_detail_number;
+            // if($this->product_detail_number == 2){
+            //     $this->product_detail_order[1] = 2;
+            // }else{
+            //     $this->product_detail_order[$this->product_detail_number-1] = $this->product_detail_number;
+            // }
+            // $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
         }
         return view('livewire.admin.product.edit-product', ['brands' => $this->brands, 'categories' => $this->categories, 'product_detail_list' => $this->product_detail_list, 'product_detail_image_list' => $this->product_detail_image_list, 'product_description' => $this->product_description]);
     }
