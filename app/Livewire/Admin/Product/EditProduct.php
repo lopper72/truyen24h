@@ -50,6 +50,13 @@ class EditProduct extends Component
     public $photo;
     public $existedPhoto;
 
+    public function updatedPhoto()
+    {
+        $this->validate([
+            'photo' => 'image|max:10240',
+        ]);
+    }
+    
     protected $listeners = ['updateComponent' => 'updateData'];
     public function mount($id, $brands, $categories)
     {
