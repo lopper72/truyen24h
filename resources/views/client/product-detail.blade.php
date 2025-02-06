@@ -72,13 +72,23 @@
                                 <div class="iconitemCommentBookmar">
                                     <a href="#itemComment"><i class="fa-solid fa-message"></i></a>
                                 </div>
-                                <span>@if (count($comments)) {{count($comments)}} @else 0 @endif comments</span>
+                                <span>@if (count($comments)) {{count($comments)}} @else 0 @endif bình luận</span>
                             </div>
                             <div class="itemCommentBookmarkLeft">
                                 <div class="iconitemCommentBookmar">
-                                    <a href="javascript:void(0)"><i class="fa-solid fa-bookmark"></i></a>
+                                    <a href="javascript:void(0)" onclick="saveBookMark();">
+                                        @if ($checkBookMarkYN == 'y')
+                                            <i class="fa-solid fa-check"></i>
+                                        @else
+                                            <i class="fa-solid fa-bookmark"></i>
+                                        @endif
+                                    </a>
                                 </div>
-                                <span>Bookmark</span>
+                                @if ($checkBookMarkYN == 'y')
+                                    Đã đánh dấu
+                                @else
+                                    Đánh dấu truyện
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -214,4 +224,44 @@
         </div>
         
     </div>
+    <div id="modalBookMark" class="modal fade" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="messegeBookMark" class="text-center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function saveBookMark(){
+            var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            var productIdDetail = {{$product->id}};
+            $.ajax({
+                url: '{{ route('bookmark') }}',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken
+                },
+                type: 'POST',
+                data: {
+                    'productIdDetail' : productIdDetail
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#messegeBookMark').html('<span style="color: green; font-size:18px">' + response.message + '</span>');
+                    }else{
+                        $('#messegeBookMark').html('<span style="color: red; font-size:18px">'+ response.message +'</span>');
+                    }
+                    var myModal = new bootstrap.Modal(document.getElementById('modalBookMark'));
+                    myModal.show();
+                    setTimeout(function() { 
+                        location.reload();
+                    }, 2000);
+                },
+                error: function(xhr) {
+                    console.log(xhr);
+                }
+            });
+        }
+    </script>
 @endsection
