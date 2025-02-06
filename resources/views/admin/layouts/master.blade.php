@@ -5,6 +5,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>@yield('title')</title>
 		<link rel="stylesheet" href="{{asset('library/css/style.css')}}">
+		<?php
+		header("Access-Control-Allow-Headers: Authorization, Content-Type");
+		header("Access-Control-Allow-Origin: *");
+		header('content-type: application/json; charset=utf-8');
+		?>
 		@vite(['resources/css/app.css','resources/js/app.js'])
 		@livewireStyles
 		<style>
