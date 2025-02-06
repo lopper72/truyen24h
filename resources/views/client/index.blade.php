@@ -52,6 +52,22 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-12 mb-4 mb-lg-0">
+                    @if ($history != "" && count($history))
+                        <div class="titleIndex2"><i class="fa-solid fa-star"></i><span>Truyện đã đọc</span></div>
+                        <div class="itemHistory">
+                            @foreach ($history as $key => $item)
+                                <div class="itemHistoryContent" @if ($key > 0) style="border-top: 1px solid #ccc;" @endif>
+                                    <div class="itemHistoryTitle">
+                                        <a href="{{route('chap',[$item->products[0]->slug,$item->productDetails[0]->number_order])}}">{{$item->products[0]->name}}</a>
+                                    </div>
+                                    <div class="itemHistoryDetail">
+                                        <span style="padding-right: 5px;"><b>{{$item->productDetails[0]->title}}</b></span>
+                                        <span>{{date('d/m/Y', strtotime($item->created_at))}}</span>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                     <div class="titleIndex2"><i class="fa-solid fa-star"></i><span>Mới cập nhật</span></div>
                     <div class="row">
                         @foreach ($new_products as $key => $new_product)

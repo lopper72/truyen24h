@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Models\Brand;
+use App\Models\History;
 
 class IndexController extends Controller
 {
@@ -21,11 +22,16 @@ class IndexController extends Controller
         $new_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('created_at', 'desc')->limit(12)->get();
         $trend_products = Product::where('is_active', '=', '1')->orWhereNull('is_active')->orderBy('view', 'desc')->orderBy('name', 'asc')->limit(4)->get();
         $brands = Brand::orderBy('name', 'desc')->get();
+        $history = "";
+        if (Auth::user()) {
+            $history = History::where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
+        }
         return view('client.index', [
             'top_products' => $top_products,
             'new_products' => $new_products,
             'trend_products' => $trend_products,
-            'brands' => $brands
+            'brands' => $brands,
+            'history' => $history
         ]);
     }
 }

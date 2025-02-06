@@ -10,7 +10,9 @@ use App\Models\Brand;
 use App\Models\Rate;
 use App\Models\Comment;
 use App\Models\BookMark;
+use App\Models\History;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -80,6 +82,23 @@ class ProductController extends Controller
         $updateViews = Product::find($product->id);
         $updateViews->view = $product->view + 1;
         $updateViews->save();
+        
+        if (Auth::user()) {
+            $checkHistory = History::where('product_id', '=', $product->id)->where('user_id', '=', Auth::user()->id)->first();
+            if (isset($checkHistory)) {
+                $history = History::find($checkHistory->id);
+                $history->product_detail_id = $chap->id;
+                $history->created_at = Carbon::now();
+                $history->save();
+            }else{
+                $history = new History();
+                $history->user_id = Auth::user()->id;
+                $history->product_id = $product->id;
+                $history->product_detail_id = $chap->id;
+                $history->save();
+            }
+        }
+
         return view('client.content',[
             'product' => $product,
             'chap' => $chap,
