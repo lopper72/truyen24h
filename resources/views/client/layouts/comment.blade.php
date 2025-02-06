@@ -18,7 +18,7 @@
             <button class="btnSearch">Gửi bình luận</button>
         </form>
     </div>
-    <div id="modalComment" class="modal" tabindex="-1">
+    <div id="modalComment" class="modal fade" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body">

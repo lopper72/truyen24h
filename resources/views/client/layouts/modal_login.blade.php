@@ -1,4 +1,4 @@
-<div id="modalLogIn" class="modal" tabindex="-1">
+<div id="modalLogIn" class="modal fade" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content" style="background-image: url({{asset('library/images/bg-login.png')}});">
             <div class="modal-header">

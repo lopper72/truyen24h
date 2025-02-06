@@ -9,6 +9,8 @@ use App\Models\ProductDetail;
 use App\Models\Brand;
 use App\Models\Rate;
 use App\Models\Comment;
+use App\Models\BookMark;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -46,13 +48,21 @@ class ProductController extends Controller
         for ($i=0; $i < count($list_brands); $i++) { 
             $brands[] = Brand::where('id', '=', $list_brands[$i])->orderBy('name', 'asc')->get();
         }
+        $checkBookMarkYN = 'n';
+        if (Auth::user()) {
+            $checkBookMark = BookMark::where('product_id', '=', $product->id)->where('user_id', '=', Auth::user()->id)->first();
+            if (isset($checkBookMark)) {
+                $checkBookMarkYN = 'y';
+            }
+        }
         return view('client.product-detail', [
             'product' => $product,
             'chaps' => $chaps,
             'trend_products' => $trend_products,
             'brands' => $brands,
             'comments' => $comments,
-            'rateDetail' => $rateDetail
+            'rateDetail' => $rateDetail,
+            'checkBookMarkYN' => $checkBookMarkYN
         ]);
     }
     public function chap($slug,$number)
@@ -154,5 +164,34 @@ class ProductController extends Controller
             'success' => true,
             'message' => 'Đánh giá thành công.<br> Cảm ơn bạn đánh giá của bạn.',
         ]);
+    }
+
+    public function bookmark(Request $request){
+        if (!Auth::user()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Vui lòng đăng nhập để lưu truyện.',
+            ]);
+        }else{
+            $checkBookMark = BookMark::where('product_id', '=', $request['productIdDetail'])->where('user_id', '=', Auth::user()->id)->first();
+            if (isset($checkBookMark)) {
+                $checkBookMark->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Bạn đã gỡ đánh dấu truyện thành công.',
+                ]);
+            }else{
+                $bookmark = new BookMark();
+                $bookmark->user_id =  Auth::user()->id;
+                $bookmark->product_id = $request['productIdDetail'];
+                $bookmark->product_detail_id = 0;
+                $bookmark->save();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Bạn đã đánh dấu truyện thành công.',
+                ]);
+            }
+        }
+        
     }
 }
