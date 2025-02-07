@@ -24,7 +24,7 @@ class IndexController extends Controller
         $brands = Brand::orderBy('name', 'desc')->get();
         $history = "";
         if (Auth::user()) {
-            $history = History::where('user_id', '=', Auth::user()->id)->orderBy('created_at', 'desc')->limit(10)->get();
+            $history = History::where('user_id', '=', Auth::user()->id)->orderBy('updated_at', 'desc')->get();
         }
         return view('client.index', [
             'top_products' => $top_products,
