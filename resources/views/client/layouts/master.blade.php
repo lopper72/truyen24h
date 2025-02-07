@@ -54,5 +54,17 @@
         scrollToTopBtn.addEventListener('click', function() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
+
+        function displayInfoUser() {
+            if ($('.loginUser').attr("class").includes("showInfoUser")) {
+                $('.loginUser').removeClass("showInfoUser");
+                $('.loginUser .fa-solid').removeClass("fa-caret-up");
+                $('.loginUser .fa-solid').addClass("fa-caret-down");
+            } else {
+                $('.loginUser').addClass("showInfoUser");
+                $('.loginUser .fa-solid').removeClass("fa-caret-down");
+                $('.loginUser .fa-solid').addClass("fa-caret-up");
+            }
+        }
     </script>
 </html>

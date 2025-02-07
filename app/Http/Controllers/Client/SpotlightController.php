@@ -16,7 +16,7 @@ class SpotlightController extends Controller
         ->where('name','LIKE', "%{$_GET['keyword']}%")
         ->orWhere('description','LIKE', "%{$_GET['keyword']}%")
         ->orWhereNull('is_active')
-        ->orderBy('created_at', 'desc')->get();
+        ->orderBy('created_at', 'desc')->paginate(21);
         return view('client.search-result', ['products'=>$products]);
     }
     public function search()

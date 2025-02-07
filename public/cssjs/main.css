@@ -808,6 +808,31 @@ ul{
     overflow: hidden;
     width: 100px;
 }
+.itemUser{
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 0;
+    background-color: #fff;
+    opacity: 0;
+    height: 0;
+    transition: ease-in-out 0.2s all;
+}
+.itemUser a{
+    display: block;
+    color: #666;
+    font-size: 14px;
+    padding: 7px 15px;
+}
+.itemUser a:hover{
+    color: #f78da7;
+}
+.showInfoUser .itemUser{
+    height: auto;
+    z-index: 10;
+    opacity: 1;
+    transition: ease-in-out 0.2s all;
+}
 @media only screen and (min-width: 992px) {
     .iconMenu {
       display: none !important;
