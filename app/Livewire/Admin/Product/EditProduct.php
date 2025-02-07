@@ -217,10 +217,12 @@ class EditProduct extends Component
         for($i = 0; $i < $this->product_detail_number; $i++){
             $this->validate([
                 'product_detail_title.'.$i => 'required',
-                'product_detail_order.'.$i => 'required'
+                'product_detail_order.'.$i => 'required',
+                'product_detail_order.*' => 'distinct',
             ], [
                 'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.',
-                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.'
+                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.',
+                'product_detail_order.*.distinct' => 'Các Chương Trong Truyện không được trùng nhau!',
             ]);
         }
 

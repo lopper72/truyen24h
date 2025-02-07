@@ -77,7 +77,7 @@ class AddProduct extends Component
 
         $this->product_detail_list[] = $new_product_detail;
         $this->product_detail_number++;
-        $this->product_detail_order[$this->product_detail_number] =$this->product_detail_number; 
+        // $this->product_detail_order[$this->product_detail_number] =$this->product_detail_number; 
 
         $count =  $this->product_detail_number;
         $this->product_detail_title[$this->product_detail_number-1] = "Chương ".$count;
@@ -164,10 +164,12 @@ class AddProduct extends Component
         for($i = 0; $i < $this->product_detail_number; $i++){
             $this->validate([
                 'product_detail_title.'.$i => 'required',
-                'product_detail_order.'.$i => 'required'
+                'product_detail_order.'.$i => 'required',
+                'product_detail_order.*' => 'distinct',
             ], [
                 'product_detail_title.'.$i.'.required' => 'Tiêu đề là bắt buộc.',
-                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.'
+                'product_detail_order.'.$i.'.required' => 'Thứ tự là bắt buộc.',
+                'product_detail_order.*.distinct' => 'Các Chương Trong Truyện không được trùng nhau!',
             ]);
         }
         if ($this->photo) {
