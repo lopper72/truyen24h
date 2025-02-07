@@ -168,4 +168,5 @@ Route::post('/login', [UserClientController::class, 'login'])->name('login');
 Route::post('/signup', [UserClientController::class, 'signup'])->name('signup');
 Route::post('/comment', [ClientProductController::class, 'comment'])->name('comment');
 Route::post('/bookmark', [ClientProductController::class, 'bookmark'])->name('bookmark');
+Route::get('/truyen-da-danh-dau', [ClientProductController::class, 'itemBookmark'])->name('item_bookmark');
 

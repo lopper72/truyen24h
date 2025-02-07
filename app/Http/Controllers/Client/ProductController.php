@@ -216,6 +216,12 @@ class ProductController extends Controller
                 ]);
             }
         }
-        
+    }
+
+    public function itemBookmark(){
+        if (Auth::user()) {
+            $bookmarks = BookMark::where('user_id', '=', Auth::user()->id)->paginate(21);
+            return view('client.bookmark', ['bookmarks' => $bookmarks]);
+        }
     }
 }

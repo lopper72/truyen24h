@@ -31,11 +31,15 @@
 <div class="container">
     <div class="loginUser">
         @if(Auth::check())
-            Xin chào <a class="urlUser" href="{{ route('logout') }}" title="Đăng xuất">{{Auth::user()->name}}</a>
+            Xin chào <a class="urlUser" href="javascript:void(0)" onclick="displayInfoUser();">{{Auth::user()->name}} <i class="fa-solid fa-caret-down"></i></a>
         @else
             <a class="iconLogin" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalLogIn">Đăng Nhập</a>
             <a class="iconLogin" href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalSignUp">Đăng Ký</a>
         @endif
+        <div class="itemUser">
+            <a href="{{ route('item_bookmark') }}">Truyện đã đánh dấu</a>
+            <a style="border-top:1px solid #ddd" href="{{ route('logout') }}">Đăng xuất</a>
+        </div>
     </div>
 </div>
 <div id="menuMobile">
