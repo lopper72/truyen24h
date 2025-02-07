@@ -55,14 +55,45 @@
                     @if ($history != "" && count($history))
                         <div class="titleIndex2"><i class="fa-solid fa-star"></i><span>Truyện đã đọc</span></div>
                         <div class="itemHistory">
+                        @php
+                            $current_date = new DateTime();
+                        @endphp
                             @foreach ($history as $key => $item)
-                                <div class="itemHistoryContent" @if ($key > 0) style="border-top: 1px solid #ccc;" @endif>
+                            @php
+                                $created_date = new DateTime($item->updated_at);
+                                $interval = $created_date->diff($current_date);
+                                $total_seconds = ($interval->d * 24 * 3600) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
+                                $hours = floor($total_seconds / 3600);
+                                $minutes = floor(($total_seconds % 3600) / 60);
+                                $seconds = $total_seconds % 60;
+                                $textDate = "";
+                                if(round($hours) == 0){
+                                    if (round($minutes) == 0) {
+                                        $textDate = round($seconds)." giây trước";
+                                    }else{
+                                        $textDate = round($minutes)." phút trước";
+                                    }
+                                }else{
+                                    $textDate = round($hours)." giờ trước";
+                                    if(round($hours) > 59){
+                                        $textDate = $interval->d ." ngày trước";
+                                    }
+                                }
+                                $totalChaps = DB::select('
+                                    SELECT distinct id
+                                    FROM product_detail
+                                    WHERE product_id = '.$item->product_id.'
+                                ');
+                            @endphp
+                                <div class="itemHistoryContent" @if (($key+1)%2 == 0) style="background: #eee" @endif>
+                                    <div class="itemHistoryDate">
+                                        <span>{{$textDate}}</span>
+                                    </div>
                                     <div class="itemHistoryTitle">
                                         <a href="{{route('chap',[$item->products[0]->slug,$item->productDetails[0]->number_order])}}">{{$item->products[0]->name}}</a>
                                     </div>
                                     <div class="itemHistoryDetail">
-                                        <span style="padding-right: 5px;"><b>{{$item->productDetails[0]->title}}</b></span>
-                                        <span>{{date('d/m/Y', strtotime($item->created_at))}}</span>
+                                        <b>Đã đọc: {{$item->productDetails[0]->number_order}}/{{count($totalChaps)}}</b>
                                     </div>
                                 </div>
                             @endforeach

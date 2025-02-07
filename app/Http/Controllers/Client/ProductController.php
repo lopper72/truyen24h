@@ -23,14 +23,14 @@ class ProductController extends Controller
         if(isset($query_params['order'])){
             return $this->order($query_params['order']);
         }else{
-            $products = Product::where('is_active', '=', '1')->orderBy('created_at', 'desc')->paginate(20);
+            $products = Product::where('is_active', '=', '1')->orderBy('created_at', 'desc')->paginate(21);
             return view('client.product', ['products' => $products, 'order' => '']);
         }
     }
     public function trend()
     {
         $top_products = Product::where('is_active', '=', '1')->orderBy('id', 'desc')->limit(8)->get();
-        $trend_products = Product::where('is_active', '=', '1')->orderBy('view', 'desc')->orderBy('name', 'asc')->paginate(20);
+        $trend_products = Product::where('is_active', '=', '1')->orderBy('view', 'desc')->orderBy('name', 'asc')->paginate(21);
         return view('client.trend', [
             'top_products' => $top_products,
             'trend_products' => $trend_products
@@ -88,7 +88,7 @@ class ProductController extends Controller
             if (isset($checkHistory)) {
                 $history = History::find($checkHistory->id);
                 $history->product_detail_id = $chap->id;
-                $history->created_at = Carbon::now();
+                $history->updated_at = Carbon::now();
                 $history->save();
             }else{
                 $history = new History();
@@ -96,6 +96,11 @@ class ProductController extends Controller
                 $history->product_id = $product->id;
                 $history->product_detail_id = $chap->id;
                 $history->save();
+            }
+            $history = History::where('user_id', '=', Auth::user()->id)->orderBy('updated_at', 'asc')->get();
+            if (count($history) > 10) {
+                $historyRemove = History::find($history[0]->id);
+                $historyRemove->delete();
             }
         }
 
@@ -140,7 +145,7 @@ class ProductController extends Controller
                 $statusOrder = "desc";
                 break;
         }
-        $products = Product::where('is_active', '=', '1')->orderBy($columnOrder, $statusOrder)->paginate(20);
+        $products = Product::where('is_active', '=', '1')->orderBy($columnOrder, $statusOrder)->paginate(21);
         return view('client.product', ['products' => $products,'order' => $order]);
     }
 
@@ -148,7 +153,7 @@ class ProductController extends Controller
         $brand = Brand::where('slug', '=', $brandSlug)->first();
         $products = Product::where('brand_ids','LIKE', "%{$brand->id}%")
         ->where('is_active', '=', '1')
-        ->orderBy('created_at', 'desc')->paginate(20);
+        ->orderBy('created_at', 'desc')->paginate(21);
         return view('client.brand', ['products' => $products, 'brandName' => $brand->name]);
     }
 
