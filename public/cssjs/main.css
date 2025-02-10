@@ -58,7 +58,7 @@ ul{
 }
 .item{
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     background-color: #fff;
     position: relative;
 }
@@ -97,7 +97,8 @@ ul{
     font-weight: 700;
 } 
 .itemContent{
-    padding: 8px 12px;
+    padding: 8px 12px 8px 0;
+    width: calc(100% - 137px);
 }
 .itemTitle{
     margin-bottom: 8px;

@@ -25,11 +25,10 @@ class Search extends Component
         $product_search = "";
         if($this->input_search != ''){
             $product_search =  Product::where('name', 'like', '%'.$this->input_search.'%')
-                ->orWhere('code', 'like', '%'.$this->input_search.'%')
                 ->where(function($query) {
                     $query->where('is_active', '=', '1')->orWhereNull('is_active');
                 })
-                ->orderBy('name','asc')->get();
+                ->orderBy('name','asc')->limit(10)->get();
         }
         return view('livewire.client.search', ["product_search" => $product_search]);
     }

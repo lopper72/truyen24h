@@ -28,7 +28,7 @@ class SearchIndex extends Component
                 ->where(function($query) {
                     $query->where('is_active', '=', '1')->orWhereNull('is_active');
                 })
-                ->orderBy('name','asc')->get();
+                ->orderBy('name','asc')->limit(10)->get();
         }
         return view('livewire.client.search-index', ["product_search" => $product_search]);
     }
