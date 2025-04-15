@@ -9,7 +9,7 @@
         <div class="container">
             <div class="contentShopee">
                 <p>Mời bạn CLICK vào liên kết bên dưới và <span>MỞ ỨNG DỤNG SHOPEE</span> để mở khóa toàn bộ chương truyện!</p>
-                <p><i class="fa-solid fa-hand-point-right"></i> <a onclick="unlockPage();" target="blank" href="{{$product->shopper_link}}">{{$product->shopper_link}}</a></p>
+                <p><i class="fa-solid fa-hand-point-right"></i> <a onclick="unlockPage();" target="_blank" href="{{$product->shopper_link}}">{{$product->shopper_link}}</a></p>
                 <div class="imgShopee">
                     <img src="{{asset('library/images/image-shopee-v2.png')}}" alt="image shopee" class="object-fit-cover w-100 h-100">
                 </div>
